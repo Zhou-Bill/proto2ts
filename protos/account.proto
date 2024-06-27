@@ -1,0 +1,281 @@
+syntax = "proto3";
+
+package ceres.account;
+
+option go_package = "code.guanmai.cn/back_end/ceres/app/account/api/model;model";
+option java_multiple_files = true;
+
+// import "google/api/annotations.proto";
+// import "include/protoc-gen-validate/validate/validate.proto";
+
+service AccountService {
+    rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/CreateAccount"
+        };
+    }
+
+    rpc UpdateAccount(UpdateAccountRequest) returns (UpdateAccountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/UpdateAccount"
+        };
+    }
+
+    rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/DeleteAccount"
+        };
+    }
+    rpc RecoverAccount(RecoverAccountRequest) returns (RecoverAccountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/RecoverAccount"
+        };
+    }
+    rpc ListAccount(ListAccountRequest) returns (ListAccountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/ListAccount"
+        };
+    }
+    rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/GetAccount"
+        };
+    }
+    rpc UpdateAccountLastLoginTime(UpdateAccountLastLoginTimeRequest) returns (UpdateAccountLastLoginTimeResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/UpdateAccountLastLoginTime"
+        };
+    }
+    // 校验账号密码是否正确
+    rpc CheckAccountPassword(CheckAccountPasswordRequest) returns (CheckAccountPasswordResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/CheckAccountPassword"
+        };
+    }
+
+    rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/CreateProfile"
+        };
+    }
+    rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/UpdateProfile"
+        };
+    }
+    rpc GetProfile(GetProfileRequest) returns (GetProfileResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/GetProfile"
+        };
+    }
+    rpc ListProfile(ListProfileRequest) returns (ListProfileResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/ListProfile"
+        };
+    }
+    // 将account与微信绑定/解除绑定
+    rpc BindWechatToAccount(BindWechatToAccountRequest) returns (BindWechatToAccountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/account/AccountService/BindWechatToAccount"
+        };
+    }
+}
+message Status {
+    enum Code {
+        CODE_UNSPECIFIED                      = 0;
+        CODE_BIND_WECHAT_TO_ACCOUNT_DUPLICATE = 2002001; // 当前账户已绑定微信,请先解绑
+        CODE_BIND_WECHAT_TO_ACCOUNT_BINDING   = 2002002; // 当前账户正在绑定微信
+    }
+}
+
+// 账号
+message Account {
+    enum Type {
+        TYPE_UNSPECIFIED = 0;
+        TYPE_PUBLIC      = 1;
+        TYPE_PRIVATE     = 2;
+    }
+
+    enum Status {
+        STATUS_UNSPECIFIED = 0;
+        STATUS_DISABLED    = 256; // 2^08，禁用账号
+    }
+
+    // @inject_tag: gorm:"primaryKey;autoIncrement:false"
+    uint64 account_id  = 1;
+    uint64 status      = 2;
+    uint64 revision    = 3;
+    uint64 create_time = 4;
+    uint64 update_time = 5;
+    uint64 delete_time = 6;
+
+    Type type = 10;
+    // @inject_tag: gorm:"INDEX:group_id_user_type_username,group_id_user_type_phone,group_id_user_type_wechat_unionid"
+    uint64 group_id = 11;
+    // @inject_tag: gorm:"INDEX:group_id_user_type_username,group_id_user_type_phone,group_id_user_type_wechat_unionid"
+    uint64 user_type = 12; // 子类型，目前用作区分xxUser，一个group_id下不同user_type间账号验证凭证可以重复，可以使用ModelType区分
+
+    // 验证信息
+    // @inject_tag: gorm:"INDEX:group_id_user_type_username"
+    string username = 30; // 登录用户名
+    string password = 31; // 登录密码, 需要客户端使用 sha256 加密一遍；后台使用bcrypt加密
+    // @inject_tag: gorm:"INDEX:group_id_user_type_phone"
+    string phone         = 32;
+    string email         = 33;
+    string wechat_openid = 34;
+    // @inject_tag: gorm:"INDEX:group_id_user_type_wechat_unionid"
+    string wechat_unionid  = 35;
+    string wechat_nickname = 36;
+    // @inject_tag: gorm:"size:200"
+    string wechat_avatar   = 37;
+    uint64 last_login_time = 38; // 最后登录时间
+}
+
+// 用户资料
+message Profile {
+    // @inject_tag: gorm:"primaryKey"
+    uint64 profile_id  = 1; // 即account_id
+    uint64 status      = 2;
+    uint64 revision    = 3;
+    uint64 create_time = 4;
+    uint64 update_time = 5;
+    uint64 delete_time = 6;
+
+    string nickname = 20 [ (validate.rules).string = {max_len : 64} ]; // 名字
+    string avatar   = 21;                                              // 头像
+}
+
+message CreateAccountRequest {
+    Account account = 1;
+}
+
+message CreateAccountResponse {
+    Account account = 1;
+}
+
+message UpdateAccountRequest {
+    Account account = 1;
+}
+
+message UpdateAccountResponse {
+    Account account = 1;
+}
+
+message DeleteAccountRequest {
+    uint64 account_id = 1;
+}
+
+message DeleteAccountResponse {
+    Account account = 1;
+}
+
+message RecoverAccountRequest {
+    uint64 account_id = 1;
+}
+
+message RecoverAccountResponse {
+    Account account = 1;
+}
+
+message ListAccountRequest {
+    uint64 account_id = 1; // 指定账号
+    repeated uint64 account_ids = 5; // 账号集合
+
+    // 类型和作用域
+    Account.Type type      = 2;
+    uint64       group_id  = 3;
+    uint64       user_type = 4;
+
+    // wechat_openid和wechat_unionid作为一组，内部是OR
+    string username       = 30;
+    string phone          = 32;
+    string email          = 33;
+    string wechat_openid  = 34; // wechat_openid和wechat_unionid作为一组，内部是OR
+    string wechat_unionid = 35; // wechat_openid和wechat_unionid作为一组，内部是OR
+}
+
+message ListAccountResponse {
+    repeated Account accounts = 1;
+}
+
+message GetAccountRequest {
+    uint64 account_id = 1; // 指定账号
+
+    // 类型和作用域
+    Account.Type type      = 2;
+    uint64       group_id  = 3;
+    uint64       user_type = 4;
+
+    string username       = 30;
+    string phone          = 32;
+    string email          = 33;
+    string wechat_openid  = 34; // wechat_openid和wechat_unionid作为一组，内部是OR
+    string wechat_unionid = 35; // wechat_openid和wechat_unionid作为一组，内部是OR
+}
+
+message GetAccountResponse {
+    Account account = 1;
+}
+
+message UpdateAccountLastLoginTimeRequest {
+    uint64 account_id      = 1;
+    uint64 last_login_time = 2;
+}
+
+message UpdateAccountLastLoginTimeResponse {
+}
+
+message CheckAccountPasswordRequest {
+    GetAccountRequest get_account_request = 1;
+    string password = 2; // 登录密码, 需要客户端使用 sha256 加密一遍；后台使用bcrypt加密
+}
+
+message CheckAccountPasswordResponse {
+}
+
+message CreateProfileRequest {
+    Profile profile = 1;
+}
+
+message CreateProfileResponse {
+    Profile profile = 1;
+}
+
+message UpdateProfileRequest {
+    Profile profile = 1;
+}
+
+message UpdateProfileResponse {
+    Profile profile = 1;
+}
+
+message GetProfileRequest {
+    uint64 profile_id = 1;
+}
+
+message GetProfileResponse {
+    Profile profile = 1;
+}
+
+message ListProfileRequest {
+    repeated uint64 profile_ids = 1;
+}
+
+message ListProfileResponse {
+    repeated Profile profiles = 1;
+}
+
+message BindWechatToAccountRequest {
+    enum Operation {
+        OPERATION_UNSPECIFIED = 0;
+        OPERATION_BIND        = 1; // 绑定
+        OPERATION_UNBIND      = 2; // 解除绑定
+    }
+    string    wechat_app_id = 1;                                             // 应用唯一标识，在微信开放平台提交应用审核通过后获得
+    string    wechat_code   = 2;                                             // 填写第一步获取的code参数
+    uint64    account_id    = 3 [ (validate.rules).uint64 = {gt : 0} ];      // 必传,当前已登录账户id
+    Operation operation     = 4 [ (validate.rules).enum = {in : [ 1, 2 ]} ]; // 必传,操作类型
+}
+message BindWechatToAccountResponse {
+    account.Account account = 1;
+}

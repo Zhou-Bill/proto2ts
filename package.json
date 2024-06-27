@@ -1,0 +1,25 @@
+{
+  "name": "proto-to-ts",
+  "version": "1.0.0",
+  "description": "proto 转成ts",
+  "main": "./dist/index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup",
+    "start": "npm run build && node ./dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.8",
+    "axios": "^1.7.2",
+    "protobufjs": "^7.3.2",
+    "tsup": "^8.1.0"
+  },
+  "dependencies": {
+    "es6-promise-pool": "^2.5.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "typescript": "^5.5.2"
+  }
+}

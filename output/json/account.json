@@ -1,0 +1,787 @@
+{
+  "nested": {
+    "ceres": {
+      "nested": {
+        "account": {
+          "options": {
+            "go_package": "code.guanmai.cn/back_end/ceres/app/account/api/model;model",
+            "java_multiple_files": true
+          },
+          "nested": {
+            "AccountService": {
+              "methods": {
+                "CreateAccount": {
+                  "requestType": "CreateAccountRequest",
+                  "responseType": "CreateAccountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/CreateAccount"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/CreateAccount"
+                      }
+                    }
+                  ]
+                },
+                "UpdateAccount": {
+                  "requestType": "UpdateAccountRequest",
+                  "responseType": "UpdateAccountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/UpdateAccount"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/UpdateAccount"
+                      }
+                    }
+                  ]
+                },
+                "DeleteAccount": {
+                  "requestType": "DeleteAccountRequest",
+                  "responseType": "DeleteAccountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/DeleteAccount"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/DeleteAccount"
+                      }
+                    }
+                  ]
+                },
+                "RecoverAccount": {
+                  "requestType": "RecoverAccountRequest",
+                  "responseType": "RecoverAccountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/RecoverAccount"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/RecoverAccount"
+                      }
+                    }
+                  ]
+                },
+                "ListAccount": {
+                  "requestType": "ListAccountRequest",
+                  "responseType": "ListAccountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/ListAccount"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/ListAccount"
+                      }
+                    }
+                  ]
+                },
+                "GetAccount": {
+                  "requestType": "GetAccountRequest",
+                  "responseType": "GetAccountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/GetAccount"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/GetAccount"
+                      }
+                    }
+                  ]
+                },
+                "UpdateAccountLastLoginTime": {
+                  "requestType": "UpdateAccountLastLoginTimeRequest",
+                  "responseType": "UpdateAccountLastLoginTimeResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/UpdateAccountLastLoginTime"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/UpdateAccountLastLoginTime"
+                      }
+                    }
+                  ]
+                },
+                "CheckAccountPassword": {
+                  "requestType": "CheckAccountPasswordRequest",
+                  "responseType": "CheckAccountPasswordResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/CheckAccountPassword"
+                  },
+                  "comment": "校验账号密码是否正确",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/CheckAccountPassword"
+                      }
+                    }
+                  ]
+                },
+                "CreateProfile": {
+                  "requestType": "CreateProfileRequest",
+                  "responseType": "CreateProfileResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/CreateProfile"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/CreateProfile"
+                      }
+                    }
+                  ]
+                },
+                "UpdateProfile": {
+                  "requestType": "UpdateProfileRequest",
+                  "responseType": "UpdateProfileResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/UpdateProfile"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/UpdateProfile"
+                      }
+                    }
+                  ]
+                },
+                "GetProfile": {
+                  "requestType": "GetProfileRequest",
+                  "responseType": "GetProfileResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/GetProfile"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/GetProfile"
+                      }
+                    }
+                  ]
+                },
+                "ListProfile": {
+                  "requestType": "ListProfileRequest",
+                  "responseType": "ListProfileResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/ListProfile"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/ListProfile"
+                      }
+                    }
+                  ]
+                },
+                "BindWechatToAccount": {
+                  "requestType": "BindWechatToAccountRequest",
+                  "responseType": "BindWechatToAccountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/account/AccountService/BindWechatToAccount"
+                  },
+                  "comment": "将account与微信绑定/解除绑定",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/account/AccountService/BindWechatToAccount"
+                      }
+                    }
+                  ]
+                }
+              },
+              "comment": null
+            },
+            "Status": {
+              "fields": {},
+              "nested": {
+                "Code": {
+                  "values": {
+                    "CODE_UNSPECIFIED": 0,
+                    "CODE_BIND_WECHAT_TO_ACCOUNT_DUPLICATE": 2002001,
+                    "CODE_BIND_WECHAT_TO_ACCOUNT_BINDING": 2002002
+                  },
+                  "comment": null,
+                  "comments": {
+                    "CODE_UNSPECIFIED": null,
+                    "CODE_BIND_WECHAT_TO_ACCOUNT_DUPLICATE": "当前账户已绑定微信,请先解绑",
+                    "CODE_BIND_WECHAT_TO_ACCOUNT_BINDING": "当前账户正在绑定微信"
+                  }
+                }
+              },
+              "comment": null
+            },
+            "Account": {
+              "fields": {
+                "account_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": "@inject_tag: gorm:\"primaryKey;autoIncrement:false\""
+                },
+                "status": {
+                  "type": "uint64",
+                  "id": 2,
+                  "comment": null
+                },
+                "revision": {
+                  "type": "uint64",
+                  "id": 3,
+                  "comment": null
+                },
+                "create_time": {
+                  "type": "uint64",
+                  "id": 4,
+                  "comment": null
+                },
+                "update_time": {
+                  "type": "uint64",
+                  "id": 5,
+                  "comment": null
+                },
+                "delete_time": {
+                  "type": "uint64",
+                  "id": 6,
+                  "comment": null
+                },
+                "type": {
+                  "type": "Type",
+                  "id": 10,
+                  "comment": null
+                },
+                "group_id": {
+                  "type": "uint64",
+                  "id": 11,
+                  "comment": "@inject_tag: gorm:\"INDEX:group_id_user_type_username,group_id_user_type_phone,group_id_user_type_wechat_unionid\""
+                },
+                "user_type": {
+                  "type": "uint64",
+                  "id": 12,
+                  "comment": "子类型，目前用作区分xxUser，一个group_id下不同user_type间账号验证凭证可以重复，可以使用ModelType区分"
+                },
+                "username": {
+                  "type": "string",
+                  "id": 30,
+                  "comment": "登录用户名"
+                },
+                "password": {
+                  "type": "string",
+                  "id": 31,
+                  "comment": "登录密码, 需要客户端使用 sha256 加密一遍；后台使用bcrypt加密"
+                },
+                "phone": {
+                  "type": "string",
+                  "id": 32,
+                  "comment": "@inject_tag: gorm:\"INDEX:group_id_user_type_phone\""
+                },
+                "email": {
+                  "type": "string",
+                  "id": 33,
+                  "comment": null
+                },
+                "wechat_openid": {
+                  "type": "string",
+                  "id": 34,
+                  "comment": null
+                },
+                "wechat_unionid": {
+                  "type": "string",
+                  "id": 35,
+                  "comment": "@inject_tag: gorm:\"INDEX:group_id_user_type_wechat_unionid\""
+                },
+                "wechat_nickname": {
+                  "type": "string",
+                  "id": 36,
+                  "comment": null
+                },
+                "wechat_avatar": {
+                  "type": "string",
+                  "id": 37,
+                  "comment": "@inject_tag: gorm:\"size:200\""
+                },
+                "last_login_time": {
+                  "type": "uint64",
+                  "id": 38,
+                  "comment": "最后登录时间"
+                }
+              },
+              "nested": {
+                "Type": {
+                  "values": {
+                    "TYPE_UNSPECIFIED": 0,
+                    "TYPE_PUBLIC": 1,
+                    "TYPE_PRIVATE": 2
+                  },
+                  "comment": null,
+                  "comments": {
+                    "TYPE_UNSPECIFIED": null,
+                    "TYPE_PUBLIC": null,
+                    "TYPE_PRIVATE": null
+                  }
+                },
+                "Status": {
+                  "values": {
+                    "STATUS_UNSPECIFIED": 0,
+                    "STATUS_DISABLED": 256
+                  },
+                  "comment": null,
+                  "comments": {
+                    "STATUS_UNSPECIFIED": null,
+                    "STATUS_DISABLED": "2^08，禁用账号"
+                  }
+                }
+              },
+              "comment": "账号"
+            },
+            "Profile": {
+              "fields": {
+                "profile_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": "即account_id"
+                },
+                "status": {
+                  "type": "uint64",
+                  "id": 2,
+                  "comment": null
+                },
+                "revision": {
+                  "type": "uint64",
+                  "id": 3,
+                  "comment": null
+                },
+                "create_time": {
+                  "type": "uint64",
+                  "id": 4,
+                  "comment": null
+                },
+                "update_time": {
+                  "type": "uint64",
+                  "id": 5,
+                  "comment": null
+                },
+                "delete_time": {
+                  "type": "uint64",
+                  "id": 6,
+                  "comment": null
+                },
+                "nickname": {
+                  "type": "string",
+                  "id": 20,
+                  "options": {
+                    "(validate.rules).string.max_len": 64
+                  },
+                  "comment": "名字"
+                },
+                "avatar": {
+                  "type": "string",
+                  "id": 21,
+                  "comment": "头像"
+                }
+              },
+              "comment": "用户资料"
+            },
+            "CreateAccountRequest": {
+              "fields": {
+                "account": {
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "CreateAccountResponse": {
+              "fields": {
+                "account": {
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "UpdateAccountRequest": {
+              "fields": {
+                "account": {
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "UpdateAccountResponse": {
+              "fields": {
+                "account": {
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "DeleteAccountRequest": {
+              "fields": {
+                "account_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "DeleteAccountResponse": {
+              "fields": {
+                "account": {
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "RecoverAccountRequest": {
+              "fields": {
+                "account_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "RecoverAccountResponse": {
+              "fields": {
+                "account": {
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "ListAccountRequest": {
+              "fields": {
+                "account_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": "指定账号"
+                },
+                "account_ids": {
+                  "rule": "repeated",
+                  "type": "uint64",
+                  "id": 5,
+                  "comment": "账号集合"
+                },
+                "type": {
+                  "type": "Account.Type",
+                  "id": 2,
+                  "comment": "类型和作用域"
+                },
+                "group_id": {
+                  "type": "uint64",
+                  "id": 3,
+                  "comment": null
+                },
+                "user_type": {
+                  "type": "uint64",
+                  "id": 4,
+                  "comment": null
+                },
+                "username": {
+                  "type": "string",
+                  "id": 30,
+                  "comment": "wechat_openid和wechat_unionid作为一组，内部是OR"
+                },
+                "phone": {
+                  "type": "string",
+                  "id": 32,
+                  "comment": null
+                },
+                "email": {
+                  "type": "string",
+                  "id": 33,
+                  "comment": null
+                },
+                "wechat_openid": {
+                  "type": "string",
+                  "id": 34,
+                  "comment": "wechat_openid和wechat_unionid作为一组，内部是OR"
+                },
+                "wechat_unionid": {
+                  "type": "string",
+                  "id": 35,
+                  "comment": "wechat_openid和wechat_unionid作为一组，内部是OR"
+                }
+              },
+              "comment": null
+            },
+            "ListAccountResponse": {
+              "fields": {
+                "accounts": {
+                  "rule": "repeated",
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "GetAccountRequest": {
+              "fields": {
+                "account_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": "指定账号"
+                },
+                "type": {
+                  "type": "Account.Type",
+                  "id": 2,
+                  "comment": "类型和作用域"
+                },
+                "group_id": {
+                  "type": "uint64",
+                  "id": 3,
+                  "comment": null
+                },
+                "user_type": {
+                  "type": "uint64",
+                  "id": 4,
+                  "comment": null
+                },
+                "username": {
+                  "type": "string",
+                  "id": 30,
+                  "comment": null
+                },
+                "phone": {
+                  "type": "string",
+                  "id": 32,
+                  "comment": null
+                },
+                "email": {
+                  "type": "string",
+                  "id": 33,
+                  "comment": null
+                },
+                "wechat_openid": {
+                  "type": "string",
+                  "id": 34,
+                  "comment": "wechat_openid和wechat_unionid作为一组，内部是OR"
+                },
+                "wechat_unionid": {
+                  "type": "string",
+                  "id": 35,
+                  "comment": "wechat_openid和wechat_unionid作为一组，内部是OR"
+                }
+              },
+              "comment": null
+            },
+            "GetAccountResponse": {
+              "fields": {
+                "account": {
+                  "type": "Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "UpdateAccountLastLoginTimeRequest": {
+              "fields": {
+                "account_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": null
+                },
+                "last_login_time": {
+                  "type": "uint64",
+                  "id": 2,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "UpdateAccountLastLoginTimeResponse": {
+              "fields": {},
+              "comment": null
+            },
+            "CheckAccountPasswordRequest": {
+              "fields": {
+                "get_account_request": {
+                  "type": "GetAccountRequest",
+                  "id": 1,
+                  "comment": null
+                },
+                "password": {
+                  "type": "string",
+                  "id": 2,
+                  "comment": "登录密码, 需要客户端使用 sha256 加密一遍；后台使用bcrypt加密"
+                }
+              },
+              "comment": null
+            },
+            "CheckAccountPasswordResponse": {
+              "fields": {},
+              "comment": null
+            },
+            "CreateProfileRequest": {
+              "fields": {
+                "profile": {
+                  "type": "Profile",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "CreateProfileResponse": {
+              "fields": {
+                "profile": {
+                  "type": "Profile",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "UpdateProfileRequest": {
+              "fields": {
+                "profile": {
+                  "type": "Profile",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "UpdateProfileResponse": {
+              "fields": {
+                "profile": {
+                  "type": "Profile",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "GetProfileRequest": {
+              "fields": {
+                "profile_id": {
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "GetProfileResponse": {
+              "fields": {
+                "profile": {
+                  "type": "Profile",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "ListProfileRequest": {
+              "fields": {
+                "profile_ids": {
+                  "rule": "repeated",
+                  "type": "uint64",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "ListProfileResponse": {
+              "fields": {
+                "profiles": {
+                  "rule": "repeated",
+                  "type": "Profile",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            },
+            "BindWechatToAccountRequest": {
+              "fields": {
+                "wechat_app_id": {
+                  "type": "string",
+                  "id": 1,
+                  "comment": "应用唯一标识，在微信开放平台提交应用审核通过后获得"
+                },
+                "wechat_code": {
+                  "type": "string",
+                  "id": 2,
+                  "comment": "填写第一步获取的code参数"
+                },
+                "account_id": {
+                  "type": "uint64",
+                  "id": 3,
+                  "options": {
+                    "(validate.rules).uint64.gt": 0
+                  },
+                  "comment": "必传,当前已登录账户id"
+                },
+                "operation": {
+                  "type": "Operation",
+                  "id": 4,
+                  "options": {
+                    "(validate.rules).enum.in": 2
+                  },
+                  "comment": "必传,操作类型"
+                }
+              },
+              "nested": {
+                "Operation": {
+                  "values": {
+                    "OPERATION_UNSPECIFIED": 0,
+                    "OPERATION_BIND": 1,
+                    "OPERATION_UNBIND": 2
+                  },
+                  "comment": null,
+                  "comments": {
+                    "OPERATION_UNSPECIFIED": null,
+                    "OPERATION_BIND": "绑定",
+                    "OPERATION_UNBIND": "解除绑定"
+                  }
+                }
+              },
+              "comment": null
+            },
+            "BindWechatToAccountResponse": {
+              "fields": {
+                "account": {
+                  "type": "account.Account",
+                  "id": 1,
+                  "comment": null
+                }
+              },
+              "comment": null
+            }
+          }
+        }
+      }
+    }
+  }
+}
