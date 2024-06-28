@@ -1,8 +1,9 @@
 import * as protobuf from 'protobufjs';
 import * as path from 'path'
 import * as fs from 'fs/promises'
-import { transfer } from './utils';
+import { AllDataType, transfer, transfer2Enum, transfer2Methods, transfer2Types } from './utils';
 import PromiseQueue from './task'
+import { getTemplate, importTemplate, interfaceHeader } from './templates';
 
 const PROJECT_NAME = 'ceres'
 const pool = new PromiseQueue(3)
@@ -19,6 +20,56 @@ const main = async () => {
   })
 }
 
+const transferToTemplate = (params: AllDataType) => {
+  const { methods, types, enums } = params
+  const result = {
+    enums: '',
+    types: '',
+    methods: ''
+  }
+  const imports = Object.keys(types)
+  
+  result.methods = transfer2Methods({
+    service: methods,
+    onBeforeTransfer: () => {
+      const prefix = `/** 类型自动生成 */`
+      /** 加载公共头 */
+      const header = getTemplate(interfaceHeader, {
+        imports: imports,
+        importName: './types'
+      })
+      const string = getTemplate(importTemplate, {})
+      return  prefix + header + string
+    }
+  })
+
+
+  Object.keys(enums).forEach(key => {
+    result.enums += transfer2Enum({
+      service: enums[key],
+      fieldName: key,
+    })
+  })
+
+  result.types += `import { AxiosRequestConfig } from 'axios'`
+  console.log(enums)
+  const header = getTemplate(interfaceHeader, {
+    imports: Object.keys(enums).map((_item) => {
+      return (enums[_item].prefix || _item).replace(/\./g, '_')
+    }),
+    importName: './enums'
+  })
+  result.types += header
+  imports.forEach((_key) => {
+    result.types += transfer2Types({
+      service: types[_key],
+      fieldName: _key,
+    })
+  })
+
+  return result
+}
+
 /**
  * 格式化 proto 转化出来的json
  */
@@ -33,14 +84,16 @@ const formatJson = async (params: {
     return 
   }
 
-  const root = json.nested?.[PROJECT_NAME] as protobuf.INamespace
-  const serviceRoot = root.nested?.['account']
- 
-  const result = transfer(serviceRoot!)
-
   const outputDir = path.join(__dirname, '../output');
   const fileName = path.basename(sourceFilePath)
   const jsonFileName = `${fileName.replace('.proto', '.json')}`
+
+  const root = json.nested?.[PROJECT_NAME] as protobuf.INamespace
+  const serviceRoot = root.nested?.['account']
+  
+  const result1 = transfer(serviceRoot!)
+  const result = transferToTemplate(result1)
+
   pool.addTask(() => {
     return fs.writeFile(path.join(outputDir, 'json', jsonFileName), JSON.stringify(json, null, 2))
   })

@@ -1,33 +1,33 @@
 import { importTemplate, apiTemplate, getTemplate, interfaceTemplate, nameSpaceTemplate } from "./templates";
 import * as protobuf from 'protobufjs';
 
-type ResultType = {
-  /** 生成的方法 */
-  methods: string,
-  /** 生成的类型 */
-  types: string,
-  /** 生成的枚举 */
-  enums: string,
-  methodsList: string[]
-  fieldsList: string[],
-  enumsList: string[]
+export type AllDataType = {
+  methods: protobuf.IService,
+  types: protobuf.IType,
+  enums: protobuf.IEnum,
+}
+
+function convertDotToSquareBrackets(input: string): string {
+  return input.replace(/(\w+)(\.\w+)+/g, (match) => {
+    return match.split('.').reduce((acc, curr, index) => {
+      if (index === 0) return curr;
+      return `${acc}['${curr}']`;
+    }, '');
+  });
 }
 
 export const transfer = (rootJson: protobuf.AnyNestedObject) => {
-  const result: ResultType = {
-    methods: '',
-    types: '',
-    enums: '',
-    methodsList: [],
-    fieldsList: [],
-    enumsList: []
-  }
+  const result: AllDataType = {
+    methods: {},
+    types: {},
+    enums: {},
+  } as AllDataType
 
   if (!rootJson) {
     return result
   }
 
-  const walk = (json: protobuf.AnyNestedObject, res) => {
+  const walk = (json: protobuf.AnyNestedObject, res: AllDataType, prefix: string) => {
     const root = json['nested']
     if (!root) {
       return
@@ -43,45 +43,27 @@ export const transfer = (rootJson: protobuf.AnyNestedObject) => {
       /** 表示生成方法 */
       if ('methods' in value) {
         const methodsValue: protobuf.IService = value
-        const methodsList = Object.keys(methodsValue.methods)
-        res.methods += transfer2Methods({
-          service: methodsValue,
-          onBeforeTransfer: () => {
-            const string = getTemplate(importTemplate, {})
-            return string
-          }
-        })
-        res.methodsList = [...res.methodsList, ...methodsList]
+        result.methods = { ...result.methods, ...methodsValue, }
       }
       /** 表示生成ts 类型 */
       if ('fields' in value) {
         const fieldsValue: protobuf.IType = value
-        const fieldsList = Object.keys(fieldsValue.fields)
-       
-        res.types += transfer2Types({
-          service: fieldsValue,
-          fieldName: key
-        })
-        res.fieldsList = [...res.fieldsList, ...fieldsList]
+        result.types = {...result.types, [key]: {...fieldsValue, prefix: `${prefix}${key}` }}
       }
 
       /** 表示生成ts enum */
       if ("values" in value) {
         const enumValue: protobuf.IEnum = value
-        const string = transfer2Enum({
-          service: enumValue,
-          fieldName: key
-        })
-        res.enums += string
+        result.enums = {...result.enums, [key]: {...enumValue, prefix: `${prefix}${key}`} }
       }
 
       if ("nested" in value) {
-        walk(value, res)
+        walk(value, res, `${prefix}${key}.`)
       }
     }
   }
 
-  walk(rootJson, result)
+  walk(rootJson, result, '')
 
   return result
 }
@@ -122,9 +104,12 @@ export const transfer2Methods = (options: Transfer2MethodsParams) => {
 }
 
 type Transfer2TypesParams = {
-  service: protobuf.IType;
+  service: protobuf.IType & {
+    prefix: string;
+  };
   /** 字段名 */
   fieldName: string
+  /** 前缀 */
 } & CommonParams;
 
 type IField = protobuf.IField & {
@@ -153,35 +138,35 @@ export const transfer2Types = (options: Transfer2TypesParams) => {
   let res = onBeforeTransfer?.() || ''
 
   const fieldsData = Object.keys(service.fields)
-
-  if (fieldsData.length === 0) {
-    return ''
-  }
+  const nested = service.nested
 
   const data: FieldData[] = []
 
   for (const key of fieldsData) {
     const currentField: IField = service.fields[key]
-    
+    const type = type2Map?.[currentField.type] || currentField.type
+
+    const nestTypeKeys = Object.keys(nested || {})
+
     const fieldItem = {
       name: key,
-      type: type2Map?.[currentField.type] || currentField.type,
+      type: nestTypeKeys.includes(type) ? `${service.prefix}.${type}`.replace(/\./g, '_') : type.replace(/\./g, '_'),
       comment: currentField?.comment || ''
     }
     data.push(fieldItem)
   }
 
-  res = getTemplate(interfaceTemplate, {
+  res += getTemplate(interfaceTemplate, {
     items: data,
     fieldName: fieldName
   })
-  res = onAfterTransfer?.(res) || res
-
-  return res
+  return onAfterTransfer?.(res) || res
 }
 
 type Transfer2EnumParams = {
-  service: protobuf.IEnum;
+  service: protobuf.IEnum & {
+    prefix: string
+  };
   /** 字段名 */
   fieldName: string
 } & CommonParams;
@@ -203,7 +188,7 @@ export const transfer2Enum = (options: Transfer2EnumParams) => {
 
   res = getTemplate(nameSpaceTemplate, {
     items: data,
-    fieldName: fieldName
+    fieldName: service.prefix.replace(/\./g, '_')
   })
 
   res = onAfterTransfer?.(res) || res

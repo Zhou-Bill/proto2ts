@@ -1,3 +1,35 @@
+/** 类型自动生成 */
+import { 
+  Status,
+  Account,
+  Profile,
+  CreateAccountRequest,
+  CreateAccountResponse,
+  UpdateAccountRequest,
+  UpdateAccountResponse,
+  DeleteAccountRequest,
+  DeleteAccountResponse,
+  RecoverAccountRequest,
+  RecoverAccountResponse,
+  ListAccountRequest,
+  ListAccountResponse,
+  GetAccountRequest,
+  GetAccountResponse,
+  UpdateAccountLastLoginTimeRequest,
+  UpdateAccountLastLoginTimeResponse,
+  CheckAccountPasswordRequest,
+  CheckAccountPasswordResponse,
+  CreateProfileRequest,
+  CreateProfileResponse,
+  UpdateProfileRequest,
+  UpdateProfileResponse,
+  GetProfileRequest,
+  GetProfileResponse,
+  ListProfileRequest,
+  ListProfileResponse,
+  BindWechatToAccountRequest,
+  BindWechatToAccountResponse,
+} from './types'
 
 import instance from './request'
 import axios, { AxiosResponse, AxiosRequestConfig, CancelTokenSource } from 'axios'
