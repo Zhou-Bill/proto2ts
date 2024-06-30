@@ -120,6 +120,9 @@ type FieldData = {
   name: string;
   type: string;
   comment: string;
+  isRequire: boolean
+  /** 是否是数组 */
+  isRepeat: boolean
 }
 
 /** 
@@ -145,12 +148,15 @@ export const transfer2Types = (options: Transfer2TypesParams) => {
   for (const key of fieldsData) {
     const currentField: IField = service.fields[key]
     const type = type2Map?.[currentField.type] || currentField.type
+    const options = Object.keys(currentField.options || {})
 
     const nestTypeKeys = Object.keys(nested || {})
 
     const fieldItem = {
       name: key,
       type: nestTypeKeys.includes(type) ? `${service.prefix}.${type}`.replace(/\./g, '_') : type.replace(/\./g, '_'),
+      isRequire: options.includes('(validate.rules).message.required') || currentField.comment?.includes('gorm:\"primaryKey') || false,
+      isRepeat: currentField.rule === 'repeated',
       comment: currentField?.comment || ''
     }
     data.push(fieldItem)

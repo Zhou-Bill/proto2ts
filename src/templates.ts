@@ -75,7 +75,7 @@ export interface {{ fieldName }} {
   axiosConfig?: AxiosRequestConfig,
   <% _.forEach(items, function(item) { %>
   <% if (item.comment) { %> /** {{ item.comment }} */ <% } %>
-  {{ item.name }}: {{ item.type }}
+  {{ item.name }}<% if (!item.isRequire) { %>?<% } %>: {{ item.type }}<% if (item.isRepeat) { %>[]<% } %>
   <% }); %>
 }
 `
