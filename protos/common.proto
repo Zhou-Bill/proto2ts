@@ -1,0 +1,1120 @@
+syntax = "proto3";
+
+package ceres.common;
+
+option java_multiple_files = true;
+option go_package = "code.guanmai.cn/back_end/ceres/pkg/common/proto;proto";
+
+// import "./google/protobuf/descriptor.proto";
+// import "./include/protoc-gen-validate/validate/validate.proto";
+
+extend google.protobuf.FieldOptions {
+    JoinModelField join_model_field = 50008;
+}
+
+// 用于声明字段对应es字段类型
+extend google.protobuf.FieldOptions {
+    EsPropertiesType  es_properties_type   = 50009; //ES字段的类型
+    EsFieldIgnoreType es_field_ignore_type = 50010; //同步到ES时是否忽略掉该字段
+    string            es_copy_to           = 50011; //ES索引时将该字段的值拷贝到指定的字段
+}
+
+// 性别
+enum Gender {
+    GENDER_UNSPECIFIED = 0;
+    GENDER_FEMALE      = 1;
+    GENDER_MALE        = 2;
+}
+
+
+/****************************************** 自定义查询条件 ******************************************/
+// 比较方式
+enum CompareType {
+    COMPARETYPE_UNSPECIFIED = 0;
+    COMPARETYPE_EQ          = 1;  // 等于
+    COMPARETYPE_NE          = 2;  // 不等于
+    COMPARETYPE_LIKE        = 3;  // 右模糊等于
+    COMPARETYPE_NOTLIKE     = 4;  // 右模糊不等于
+    COMPARETYPE_FULLLIKE    = 5;  // 全模糊等于
+    COMPARETYPE_NOTFULLLIKE = 6;  // 全模糊不等于
+    COMPARETYPE_LT          = 7;  // 小于
+    COMPARETYPE_LE          = 8;  // 小于等于
+    COMPARETYPE_GT          = 9;  // 大于
+    COMPARETYPE_GE          = 10; // 大于等于
+    COMPARETYPE_IN          = 11; // 包含
+    COMPARETYPE_NOTIN       = 12; // 不包含
+    COMPARETYPE_ISNULL      = 13; // 为空
+    COMPARETYPE_ISNOTNULL   = 14; // 不为空
+}
+
+// 与或条件
+enum AndOrType {
+    ANDORTYPE_UNSPECIFIED = 0;
+    ANDORTYPE_AND         = 1; // 与
+    ANDORTYPE_OR          = 2; // 或
+}
+
+// 查询的数据源
+enum DataSource {
+    DATASOURCE_UNSPECIFIED = 0;
+    DATASOURCE_MYSQL       = 1; // mysql
+    DATASOURCE_ES          = 2; // es
+}
+
+// es字段类型
+enum EsPropertiesType {
+    ESPROPERTIESTYPE_UNSPECIFIED   = 0;
+    ESPROPERTIESTYPE_JOIN          = 1;  // 一对多父子关联，父子独立文档，子文档可独立更新，适合子文档写入大于查询
+    ESPROPERTIESTYPE_NESTED        = 2;  // 一对多父子关联，父子同一份文档，父子全文档整体更新，适合子文档查询大于写入
+    ESPROPERTIESTYPE_TEXT          = 3;  // 字符串类型
+    ESPROPERTIESTYPE_KEYWORD       = 4;  // 字符串类型
+    ESPROPERTIESTYPE_INTEGER       = 5;  // 整数类型
+    ESPROPERTIESTYPE_LONG          = 6;  // 整数类型
+    ESPROPERTIESTYPE_SHORT         = 7;  // 整数类型
+    ESPROPERTIESTYPE_BYTE          = 8;  // 整数类型
+    ESPROPERTIESTYPE_DOUBLE        = 9;  // 浮点类型
+    ESPROPERTIESTYPE_FLOAT         = 10; // 浮点类型
+    ESPROPERTIESTYPE_HALF_FLOAT    = 11; // 浮点类型
+    ESPROPERTIESTYPE_SCALED_FLOAT  = 12; // 浮点类型
+    ESPROPERTIESTYPE_BOOLEAN       = 13; // 逻辑类型
+    ESPROPERTIESTYPE_DATE          = 14; // 日期类型
+    ESPROPERTIESTYPE_INTEGER_RANGE = 15; // 范围类型
+    ESPROPERTIESTYPE_FLOAT_RANGE   = 16; // 范围类型
+    ESPROPERTIESTYPE_LONG_RANGE    = 17; // 范围类型
+    ESPROPERTIESTYPE_DOUBLE_RANGE  = 18; // 范围类型
+    ESPROPERTIESTYPE_DATE_RANGE    = 19; // 范围类型
+    ESPROPERTIESTYPE_BINARY        = 20; // 二进制类型
+    ESPROPERTIESTYPE_ARRAY         = 21; // 数组类型
+    ESPROPERTIESTYPE_OBJECT        = 22; // 对象类型
+    ESPROPERTIESTYPE_GEO_POINT     = 23; // 地理坐标类型
+    ESPROPERTIESTYPE_GEO_SHAPE     = 24; // 地理地图
+    ESPROPERTIESTYPE_IP            = 25; // 特殊类型
+    ESPROPERTIESTYPE_COMPLETION    = 26; // 范围类型
+    ESPROPERTIESTYPE_TOKEN_COUNT   = 27; // 令牌计数类型
+    ESPROPERTIESTYPE_ATTACHMENT    = 28; // 附件类型
+    ESPROPERTIESTYPE_PERCOLATOR    = 29; // 抽取类型
+    ESPROPERTIESTYPE_WILDCARD      = 30; // 通配符匹配类型
+}
+
+// es同步字段是否忽略
+enum EsFieldIgnoreType {
+    ESFIELDIGNORETYPE_NORMAL = 0; //普通字段
+    ESFIELDIGNORETYPE_IGNORE = 1; //同步忽略字段
+}
+
+// redis db 编号枚举，按服务模块划分
+enum RedisDb {
+    REDIS_DB_UNSPECIFIED       = 0; // common
+    REDIS_DB_METADATA          = 1; // metadata
+    REDIS_DB_ANALYTICS         = 2; // analytics
+    REDIS_DB_LINESIDEWAREHOUSE = 3; // LineSideWarehouse
+}
+enum CloudServiceType {
+    TYPE_UNSPECIFIED = 0;
+    TYPE_QINIU       = 1; // 七牛云
+    TYPE_TENCENT_COS = 2; // 腾讯云静态储存
+}
+
+message JoinModelField {
+    Model.Type model_type   = 1; // 关联模型类型
+    string primary_key_name = 2; // 关联模型主键字段名称
+}
+
+message Status {
+    enum Code {
+        
+/********* 以下是 gRPC 官方预定义的状态码 *********/
+
+        // OK is returned on success.
+        OK = 0;
+
+        // Canceled indicates the operation was canceled (typically by the caller).
+        CANCELED = 1;
+
+        // Unknown error. An example of where this error may be returned is
+        // if a Status value received from another address space belongs to
+        // an error-space that is not known in this address space. Also
+        // errors raised by APIs that do not return enough error information
+        // may be converted to this error.
+        UNKNOWN = 2;
+
+        // InvalidArgument indicates client specified an invalid argument.
+        // Note that this differs from FailedPrecondition. It indicates arguments
+        // that are problematic regardless of the state of the system
+        // (e.g., a malformed file name).
+        INVALID_ARGUMENT = 3;
+
+        // DeadlineExceeded means operation expired before completion.
+        // For operations that change the state of the system, this error may be
+        // returned even if the operation has completed successfully. For
+        // example, a successful response from a server could have been delayed
+        // long enough for the deadline to expire.
+        DEADLINE_EXCEEDED = 4;
+
+        // NotFound means some requested entity (e.g., file or directory) was
+        // not found.
+        NOT_FOUND = 5;
+
+        // AlreadyExists means an attempt to create an entity failed because one
+        // already exists.
+        ALREADY_EXISTS = 6;
+
+        // PermissionDenied indicates the caller does not have permission to
+        // execute the specified operation. It must not be used for rejections
+        // caused by exhausting some resource (use ResourceExhausted
+        // instead for those errors). It must not be
+        // used if the caller cannot be identified (use Unauthenticated
+        // instead for those errors).
+        PERMISSION_DENIED = 7;
+
+        // ResourceExhausted indicates some resource has been exhausted, perhaps
+        // a per-user quota, or perhaps the entire file system is out of space.
+        RESOURCE_EXHAUSTED = 8;
+
+        // FailedPrecondition indicates operation was rejected because the
+        // system is not in a state required for the operation's execution.
+        // For example, directory to be deleted may be non-empty, an rmdir
+        // operation is applied to a non-directory, etc.
+        //
+        // A litmus test that may help a service implementor in deciding
+        // between FailedPrecondition, Aborted, and Unavailable:
+        //  (a) Use Unavailable if the client can retry just the failing call.
+        //  (b) Use Aborted if the client should retry at a higher-level
+        //      (e.g., restarting a read-modify-write sequence).
+        //  (c) Use FailedPrecondition if the client should not retry until
+        //      the system state has been explicitly fixed. E.g., if an "rmdir"
+        //      fails because the directory is non-empty, FailedPrecondition
+        //      should be returned since the client should not retry unless
+        //      they have first fixed up the directory by deleting files from it.
+        //  (d) Use FailedPrecondition if the client performs conditional
+        //      REST Get/Update/Delete on a resource and the resource on the
+        //      server does not match the condition. E.g., conflicting
+        //      read-modify-write on the same resource.
+        FAILED_PRECONDITION = 9;
+
+        // Aborted indicates the operation was aborted, typically due to a
+        // concurrency issue like sequencer check failures, transaction aborts,
+        // etc.
+        //
+        // See litmus test above for deciding between FailedPrecondition,
+        // Aborted, and Unavailable.
+        ABORTED = 10;
+
+        // OutOfRange means operation was attempted past the valid range.
+        // E.g., seeking or reading past end of file.
+        //
+        // Unlike InvalidArgument, this error indicates a problem that may
+        // be fixed if the system state changes. For example, a 32-bit file
+        // system will generate InvalidArgument if asked to read at an
+        // offset that is not in the range [0,2^32-1], but it will generate
+        // OutOfRange if asked to read from an offset past the current
+        // file size.
+        //
+        // There is a fair bit of overlap between FailedPrecondition and
+        // OutOfRange. We recommend using OutOfRange (the more specific
+        // error) when it applies so that callers who are iterating through
+        // a space can easily look for an OutOfRange error to detect when
+        // they are done.
+        OUT_OF_RANGE = 11;
+
+        // Unimplemented indicates operation is not implemented or not
+        // supported/enabled in this service.
+        UNIMPLEMENTED = 12;
+
+        // Internal errors. Means some invariants expected by underlying
+        // system has been broken. If you see one of these errors,
+        // something is very broken.
+        INTERNAL = 13;
+
+        // Unavailable indicates the service is currently unavailable.
+        // This is a most likely a transient condition and may be corrected
+        // by retrying with a backoff. Note that it is not always safe to retry
+        // non-idempotent operations.
+        //
+        // See litmus test above for deciding between FailedPrecondition,
+        // Aborted, and Unavailable.
+        UNAVAILABLE = 14;
+
+        // DataLoss indicates unrecoverable data loss or corruption.
+        DATA_LOSS = 15;
+
+        // Unauthenticated indicates the request does not have valid
+        // authentication credentials for the operation.
+        UNAUTHENTICATED = 16;
+
+        
+/********* 以下是我们自定义的通用状态码，范围是 1001~1999 *********/
+
+        // 数据库错误
+        DATABASE_ERROR = 1001;
+
+        // 异步错误
+        ASYNC_ERROR = 1002;
+
+        // 缓存不存在
+        CACHE_NOT_EXISTED = 1003;
+
+        // 数据过期
+        DATA_EXPIRED = 1004;
+
+        // 自定义编码重复
+        DUPLICATE_CUSTOMIZED_CODE = 1005;
+
+        // 名称重复
+        DUPLICATE_NAME = 1008;
+
+        // redis数据库错误
+        REDIS_ERROR = 1006;
+        // redis锁定中
+        REDIS_LOCKED = 1007;
+
+        // 总金额太大
+        AMOUNT_TOO_BIG = 1009;
+
+        //订阅事件错误
+        SUBSCRIBE_EVENTS_ERROR = 1010;
+    }
+
+    message InvalidArgumentDetail {
+        string reason = 1;
+    }
+}
+
+message Uint64Set {
+    repeated uint64 values = 1;
+}
+
+message StringSet {
+    repeated string values = 1;
+}
+
+message Model {
+    enum Type {
+        TYPE_UNSPECIFIED = 0;
+
+        TYPE_ACCOUNT_ACCOUNT = 1; // 账号
+
+        TYPE_PRODUCTION_PROCESSTYPE                  = 2;   // 工序类型
+        TYPE_PRODUCTION_PROCESSTEMPLATE              = 3;   // 工序模板
+        TYPE_PRODUCTION_PROCESSOR                    = 4;   // 工厂模型
+        TYPE_PRODUCTION_BOM                          = 5;   // bom
+        TYPE_PRODUCTION_TASK                         = 6;   // 生产计划
+        TYPE_PRODUCTION_PROCESS_TASK                 = 88;  // 生产任务
+        TYPE_PRODUCTION_TASKINPUT                    = 7;   // 任务原料
+        TYPE_PRODUCTION_TASKPROCESS                  = 8;   // 任务工序
+        TYPE_PRODUCTION_TASKWEIGHT                   = 47;  // 任务定重
+        TYPE_PRODUCTION_TASKOUTPUT                   = 66;  // 任务产出
+        TYPE_PRODUCTION_PROCESSTASK                  = 76;  // 工序任务
+        TYPE_PRODUCTION_PROCESSTASKCOMMAND           = 77;  // 工序任务指令
+        TYPE_PRODUCTION_PROCESSTASKINPUTLOG          = 78;  // 投料记录
+        TYPE_PRODUCTION_PROCESSTASKOUTPUTLOG         = 79;  // 产出记录
+        TYPE_PRODUCTION_TASKSOURCE                   = 901; // 需求来源
+        TYPE_PRODUCTION_PROCESSTASKRELATION          = 902; // 计划任务关联
+        TYPE_PRODUCTION_BOM_MATERIAL                 = 903; // bom原料
+        TYPE_PRODUCTION_BOM_SNAPSHOT                 = 904; // bom快照
+        TYPE_PRODUCTION_TASK_ORDER                   = 905; // 任务的来源订单
+        TYPE_PRODUCTION_TASK_SHEET                   = 906; // 生产单、领料单
+        TYPE_PRODUCTION_BOMPROCESS                   = 907; // bom工序
+        TYPE_PRODUCTION_REQUESTORDER                 = 908; // 生产请求单
+        TYPE_PRODUCTION_REQUESTORDERDETAIL           = 909; // 生产请求单详情
+        TYPE_PRODUCTION_PRODUCTIONORDER              = 910; // 生产计划
+        TYPE_PRODUCTION_PRODUCTIONLINE               = 911; // 产线
+        TYPE_PRODUCTION_MATERIALORDER                = 912; // 领料单
+        TYPE_PRODUCTION_MATERIALORDERDETAIL          = 913; // 领料单详情
+        TYPE_PRODUCTION_PRODUCTIONLABEL              = 914; // 生产标签
+        TYPE_PRODUCTION_PROCESSTASKINPUT             = 915; // 工序任务内嵌投料
+        TYPE_PRODUCTION_PROCESSTASKCOMMANDTAKETIME   = 916; // 工序任务指令耗时
+        TYPE_PRODUCTION_PROCESSTASKCOMMANDINPUT      = 917; // 指令内嵌投料
+        TYPE_PRODUCTION_LINESIDEWAREHOUSEORDER       = 918; // 生产单、退料单
+        TYPE_PRODUCTION_LINESIDEWAREHOUSEORDERDETAIL = 919; // 生产单、退料单详情
+        TYPE_LINESIDEWAREHOUSE_STOREROOM             = 930; // 线边仓仓库
+        TYPE_LINESIDEWAREHOUSE_BATCHSTOCK            = 931; // 线边仓批次库存
+        TYPE_LINESIDEWAREHOUSE_STOCKRECORD           = 932; // 线边仓库存记录
+
+        TYPE_INVENTORY_STOCKSHEET                       = 9;   // 库存单据
+        TYPE_INVENTORY_STOCKLOG                         = 10;  // 库存记录
+        TYPE_INVENTORY_BATCHLOG                         = 11;  // 批次记录
+        TYPE_INVENTORY_SHELF                            = 12;  // 货位
+        TYPE_INVENTORY_BATCH                            = 13;  // 批次
+        TYPE_INVENTORY_SKUUNITSTOCK                     = 14;  // SSU库存
+        TYPE_INVENTORY_SKUSTOCK                         = 15;  // SKU 库存
+        TYPE_INVENTORY_STATEMENT                        = 16;  // 供应商结款单
+        TYPE_INVENTORY_ADJUSTSHEET                      = 17;  // 调整单
+        TYPE_INVENTORY_ADJUSTLOG                        = 18;  // 调整记录
+        TYPE_INVENTORY_CUSTOMERTURNOVER                 = 19;  // 商户周转物
+        TYPE_INVENTORY_REPLACE                          = 20;  //  填充单
+        TYPE_INVENTORY_PROCESSOR_CHECK                  = 201; // 车间商品盘点记录
+        TYPE_INVENTORY_PROCESSOR_STATISTICS             = 202; // 车间商品盘点统计
+        TYPE_INVENTORY_STOCKSHEETDETAIL                 = 203; // 库存单据Detail
+        TYPE_INVENTORY_WAREHOUSE                        = 204; // 仓库
+        TYPE_INVENTORY_WAREHOUSE_TRANSFER_SHEET         = 205; // 仓间调拨单
+        TYPE_INVENTORY_WAREHOUSE_TRANSFER_SHEET_DETAILS = 206; // 仓间调拨单详情/损耗记录
+        TYPE_INVENTORY_STOCKSHEET_PURCHASE_IN           = 207; // 采购入库
+        TYPE_INVENTORY_STOCKSHEET_PURCHASE_IN_DETAILS   = 208; // 采购入库详情
+        TYPE_INVENTORY_STOCKSHEET_COST_ADJUST           = 209; // 成本调整单
+        TYPE_INVENTORY_STOCKSHEET_COST_ADJUST_DETAILS   = 210; // 成本调整单详情
+        TYPE_INVENTORY_STOCKSHEET_SALE_OUT              = 211; // 销售出库
+        TYPE_INVENTORY_STOCKSHEET_SALE_OUT_DETAILS      = 212; // 销售出库详情
+        TYPE_INVENTORY_STOCKSHEET_PRODUCT_IN            = 213; // 生产入库
+        TYPE_INVENTORY_STOCKSHEET_PRODUCT_IN_DETAILS    = 214; // 生产入库详情
+        TYPE_INVENTORY_STOCKSHEET_MATERIAL_OUT          = 215; // 领料出库
+        TYPE_INVENTORY_STOCKSHEET_MATERIAL_OUT_DETAILS  = 216; // 领料出库详情
+        TYPE_INVENTORY_STOCKSHEET_PURCHASE_OUT          = 217; // 采购退货出库
+        TYPE_INVENTORY_RACK                             = 218; // 货位
+        TYPE_INVENTORY_RACK_SKU                         = 219; // 货位商品关联
+        TYPE_INVENTORY_RACK_STOCK_SHEET                 = 220; // 上下架单
+        TYPE_INVENTORY_RACK_STOCK_SHEET_DETAIL          = 221; // 上下架单详情
+        TYPE_INVENTORY_RACK_STOCK                       = 222; // 货位库存
+        TYPE_INVENTORY_STOCKSHEET_MATERIAL_IN           = 223; // 退料入库
+        TYPE_INVENTORY_ADJUST_SHEET_DETAIL              = 224; // 调整单调整记录详情
+        TYPE_INVENTORY_ADJUST_SHEET                     = 225; // 调整单
+        TYPE_INVENTORY_ADJUST_STOCK_SHEET_DETAIL        = 226; // 调整单仓储单据详情,
+        TYPE_INVENTORY_STOCKSHEET_BEGINNING             = 227; // 初始库存
+        TYPE_INVENTORY_STOCKSHEET_BEGINNING_DETAIL      = 228; // 初始库存详情
+        TYPE_INVENTORY_EXPORT_SETTINGS                  = 231; // 仓储自定义导出设置
+        TYPE_INVENTORY_STOCKSHEET_RETURN_IN             = 240; // 销售退货入库
+        TYPE_INVENTORY_STOCKSHEET_OTHER_IN              = 241; // 其他入库
+        TYPE_INVENTORY_STOCKSHEET_OTHER_IN_DETAILS      = 242; // 其他入库详情
+        TYPE_INVENTORY_STOCKSHEET_OTHER_OUT             = 243; // 其他出库
+        TYPE_INVENTORY_STOCKSHEET_OTHER_OUT_DETAILS     = 244; // 其他出库详情
+        TYPE_INVENTORY_STOCKSHEET_OVERAGE_IN            = 245; // 盘盈入库
+        TYPE_INVENTORY_STOCKSHEET_OVERAGE_IN_DETAILS    = 246; // 盘盈入库详情
+        TYPE_INVENTORY_STOCKSHEET_SHORTAGE_OUT          = 247; // 盘亏出库
+        TYPE_INVENTORY_STOCKSHEET_SHORTAGE_OUT_DETAILS  = 248; // 盘亏出库详情
+        TYPE_COST_CENTER_INVENTORY_STOCKSHEET          = 249; //成本中心单据
+        TYPE_COST_CENTER_INVENTORY_STOCKSHEET_DETAILS  = 250; // 成本中心单据详情
+
+        TYPE_INVENTORY_SCHEDULED_OUT_LOG = 229; // 占用库存记录
+        TYPE_INVENTORY_SCHEDULED_IN_LOG  = 230; // 在途库存记录
+
+        TYPE_INVENTORY_STOCKSHEET_ASSEMBLY             = 232; // 组装拆卸单
+        TYPE_INVENTORY_STOCKSHEET_ASSEMBLY_OUT         = 233; // 组装拆卸出库单
+        TYPE_INVENTORY_STOCKSHEET_ASSEMBLY_OUT_DETAILS = 234; // 组装拆卸出库单详情
+        TYPE_INVENTORY_STOCKSHEET_ASSEMBLY_IN          = 235; // 组装拆卸入库单
+        TYPE_INVENTORY_STOCKSHEET_ASSEMBLY_IN_DETAILS  = 236; // 组装拆卸入库单详情
+
+        TYPE_ORDER_ORDER                 = 21; // 订单
+        TYPE_ORDER_ORDER_DETAIL          = 22; // 订单详情
+        TYPE_ORDER_ORDER_IMPORT_TEMPLETE = 23; // 订单自定义导入模板
+
+        TYPE_ORDER_CUSTOMIZE_TYPE       = 693; // 订单自定义类型
+        TYPE_ORDER_IMPORT_ORDER         = 694; // 订单导入信息
+        TYPE_ORDER_CUSTOMIZE_SPLIT_TYPE = 695; // 订单自定义分单类型
+        TYPE_ORDER_PARENT_ORDER         = 696; // 母订单
+        TYPE_ORDER_PARENT_ORDER_DETAIL  = 697; // 母订单详情
+        TYPE_ORDER_ORDER_APPROVAL_LOG   = 698; // 订单审批记录
+
+        TYPE_DELIVERY_DELIVERY_TASK         = 330; // 配送任务
+        TYPE_DELIVERY_DELIVERY_TASK_DETAIL  = 331; // 配送任务明细
+        TYPE_DELIVERY_DRIVER_LOCATION_STATE = 333; // 司机位置状态
+
+        TYPE_ORDER_ORDER_RAW_DETAIL = 75; // 原始下单订单详情
+        TYPE_ORDER_ORDER_SKU_HOT    = 84; // SKU 下单热度
+
+        TYPE_ENTERPRISE_GROUP                          = 24;  // Group
+        TYPE_ENTERPRISE_GROUP_USER                     = 25;  // Group 用户
+        TYPE_ENTERPRISE_STATION                        = 26;  // 站点
+        TYPE_ENTERPRISE_CUSTOMER                       = 27;  // 商户
+        TYPE_ENTERPRISE_CUSTOMER_USER                  = 28;  // 商户用户
+        TYPE_ENTERPRISE_CUSTOMER_USER_PERMISSION       = 72;  // 商户用户
+        TYPE_ENTERPRISE_CUSTOMER_LABEL                 = 45;  // 商户标签
+        TYPE_ENTERPRISE_SERVICE_PERIOD                 = 29;  // 运营周期
+        TYPE_ENTERPRISE_SUPPLIER                       = 30;  // 供应商
+        TYPE_ENTERPRISE_SUPPLIER_LABEL                 = 49;  // 供应商标签
+        TYPE_ENTERPRISE_DISTRIBUTION_CONTRACTOR        = 31;  // 配送承包商
+        TYPE_ENTERPRISE_ROLE                           = 32;  // 角色
+        TYPE_ENTERPRISE_MARKET_AREA                    = 33;  // 所在市场
+        TYPE_ENTERPRISE_INVITATION_CODE                = 34;  // 邀请码
+        TYPE_ENTERPRISE_CUSTOMER_ORDER_LIMIT           = 601; // customer下单限制
+        TYPE_ENTERPRISE_CUSTOMER_MEAL_RECORD           = 602; // customer就餐记录
+        TYPE_ENTERPRISE_CUSTOMER_MEAL_RECORD_ANALYTICS = 603; // customer就餐记录统计
+        TYPE_ENTERPRISE_SHOP_DIY_SETTING               = 46 [ deprecated = true ];
+        TYPE_ENTERPRISE_SEMESTER                       = 604; // 学期
+        TYPE_ENTERPRISE_BUDGET_MANAGEMENT              = 605; // 预算管理
+        TYPE_ENTERPRISE_COMPANY_WEBSITE                = 690; // 公司网站
+        TYPE_ENTERPRISE_NAVIGATION                     = 691; // 网站导航
+        TYPE_ENTERPRISE_IMAGE_TEMPLE                   = 692; // 网站图片模板
+        TYPE_ENTERPRISE_DEPARTMENT                     = 680; // 部门
+        TYPE_ENTERPRISE_DAY_COST_AMOUNT                = 681; // 客户下单限制-每日成本
+        TYPE_ENTERPRISE_CATEGORY_LIMIT                 = 682; // 分类规则限制
+        TYPE_ENTERPRISE_CATEGORY_LIMIT_ROW             = 683; // 分类规则限制-明细
+
+        TYPE_PURCHASE_TASK                       = 35;  // 采购任务
+        TYPE_PURCHASE_SHEET                      = 36;  // 采购单
+        TYPE_PURCHASE_BATCH                      = 37;  // 采购波次
+        TYPE_PURCHASE_INQUIRY_PRICE              = 38;  // 采购询价
+        TYPE_PURCHASE_SHEET_DETAIL               = 91;  // 采购单明细
+        TYPE_PURCHASE_SRC_RELATION               = 50;  // 采购来源关系表
+        TYPE_PURCHASE_ORDER_RELATION_INDEX       = 600; // 采购单索引表
+        TYPE_PURCHASE_PURCHASE_TASK_SRC_RELATION = 606; // 采购任务某关联表
+        TYPE_PURCHASE_RULE                       = 608; // 采购规则
+        TASK_PURCHASE_REQUISITION                = 93;  // 采购申请单表
+        TASK_PURCHASE_REQUISITION_DETAIL         = 94;  // 采购申请单表
+        TYPE_PURCHASE_TASK_EXPORT_SETTINGS       = 95;  // 采购计划导出设置
+        TYPE_PURCHASE_SUPPLIER_UPPER_LIMIT       = 96;  // 供货商供应上限数据表
+        TYPE_PURCHASE_TASK_REQUEST_DETAIL        = 115; // 采购计划来源明细
+        TYPE_PURCHASE_ORDER                      = 607; // 采购单
+        TYPE_PURCHASE_ORDER_DETAIL               = 116; // 采购单明细
+
+        TYPE_OPERATION_OPERATION = 39; // 操作日志
+
+        TYPE_MERCHANDISE_CATEGORY                    = 40;  // 分类
+        TYPE_MERCHANDISE_SPU                         = 41;  // SPU
+        TYPE_MERCHANDISE_SKU                         = 42;  // SKU
+        TYPE_MERCHANDISE_SSU                         = 111; // SSU
+        TYPE_MERCHANDISE_QUOTATION                   = 43;  // 报价单
+        TYPE_MERCHANDISE_CUSTOMER_QUOTATION_RELATION = 98;  // 报价单和客户绑定关系
+        TYPE_MERCHANDISE_MENU                        = 107; // 菜谱
+        TYPE_MERCHANDISE_CUSTOMER_MENU_RELATION      = 108; // 菜谱和客户绑定关系
+        TYPE_MERCHANDISE_MENU_DETAIL_SKU             = 109; // 菜谱详情商品
+        TYPE_MERCHANDISE_BASIC_PRICE                 = 99;  // 报价
+        TYPE_MERCHANDISE_BSHOP_FAVORITE              = 100; // bshop的收藏夹
+        TYPE_MERCHANDISE_FAVORITE_SSU                = 101; // 被收藏的商品
+        TYPE_MERCHANDISE_MENU_PERIOD_GROUP           = 102; // 餐次组
+        TYPE_MERCHANDISE_MENU_DETAIL_ID              = 103; // 菜谱详情id
+        TYPE_MERCHANDISE_TAX_ID                      = 104; // 税率分类ID
+        TYPE_MERCHANDISE_MEAL_CALENDAR               = 105; // 菜谱就餐日历
+        TYPE_MERCHANDISE_UNIT                        = 106; // 单位
+        TYPE_MERCHANDISE_SKUSALEINVENTORY            = 110; // 商品销售库存限制
+        TYPE_MERCHANDISE_BASIC_PRICE_SNAP            = 112; // 报价快照
+        TYPE_MERCHANDISE_SKU_NUTRITION               = 113; //SKU营养成本表
+        TYPE_MERCHANDISE_NUTRITION                   = 114; //营养素
+        TYPE_MERCHANDISE_THIRD_CATEGORY              = 118; // 第三方商品分类
+        TYPE_MERCHANDISE_BASIC_PRICE_DETAIL          = 119; // 报价条目
+        TYPE_MERCHANDISE_PACK_UNIT                = 120;  // SKU
+
+
+        TYPE_ASYNCTASK_TASK = 44; // 异步任务
+
+        TYPE_SORTING_TAG                  = 51;  // 分拣标签
+        TYPE_SORTING_SKU_GROUP            = 52;  // 分拣组
+        TYPE_SORTING_BASKET               = 53;  // 分拣框
+        TYPE_SORTING_BASKET_V2            = 55;  // 投框框
+        TYPE_SORTING_BASKET_TASK          = 56;  // 投框任务
+        TYPE_SORTING_BASKET_TASK_LOG      = 48;  // 投框记录
+        TYPE_SORTING_SKU_GROUP_SKU        = 65;  // 分拣组所属的sku
+        TYPE_SORTING_DETAIL               = 86;  // 分拣详情
+        TYPE_SORTING_IN_STOCK             = 87;  // 分拣入库
+        TYPE_SORTING_REQUESTORDER         = 850; // 分拣请求单
+        TYPE_SORTING_REQUESTORDERDETAIL   = 851; // 分拣请求单详情
+        TYPE_SORTING_SORTINGORDER         = 852; // 分拣计划
+        TYPE_SORTING_SORTINGSTORY         = 853; // 分拣需求
+        TYPE_SORTING_PRE_SORTINGTASK      = 854; // 拣货任务
+        TYPE_SORTING_PRE_SORTINGTASK_LOG  = 855; // 拣货记录
+        TYPE_SORTING_SURPLUS_STOCK_DETAIL = 856; // 剩余库存明细
+
+        TYPE_ROUTE = 54; // 路线
+
+        TYPE_PREFERENCE_PRINTING_TEMPLATE             = 57; // 采购打印模版
+        TYPE_PREFERENCE_INNER_LABEL_PRINTING_TEMPLATE = 58; // 内标打印模版
+        TYPE_PREFERENCE_SHOP                          = 59; // 商城
+        TYPE_PREFERENCE_SHOP_LAYOUT_SETTINGS          = 60; // 商城首页配置（商城装修）
+        TYPE_PREFERENCE_SHOP_BANNER                   = 67; // 商城 Banner
+        TYPE_PREFERENCE_HOLIDAY                       = 69; // 节假日
+        TYPE_PREFERENCE_SHOP_LAYOUT_PAGE              = 70; // 商城装修页面
+        TYPE_PREFERENCE_SHOP_LAYOUT_COMPONENT         = 71; // 商城装修页面组件
+
+        TYPE_PURCHASE_SETTINGS         = 61; // 采购设置
+        TYPE_INVENTORY_SETTINGS        = 62; // 进销存设置
+        TYPE_APPOINT_TIME_SETTINGS     = 63; // 交期设置
+        TYPE_PRECISION_SETTINGS        = 64; // 精度设置
+        TYPE_SORTING_SETTINGS          = 68; // 分拣设置
+        TYPE_TRACE_SETTINGS            = 73; // 溯源设置
+        TYPE_PRODUCTION_SETTINGS       = 74; // 生产设置
+        TYPE_ORDER_SETTINGS            = 82; // 订单设置
+        TYPE_PREFERENCE_ESHOP_SETTINGS = 85; // E商城设置
+        TYPE_ORDER_EXPORT_SETTINGS     = 89; // 订单导出设置
+        TYPE_GLOBAL_SETTINGS           = 97; // 全局设置
+
+        // 售后
+        TYPE_AFTER_SALE_ORDER        = 80;  // 售后订单
+        TYPE_AFTER_SALE_ORDER_DETAIL = 81;  // 售后订单详情
+        TYPE_AFTER_SALE_SETTINGS     = 83;  // 售后设置
+        TYPE_AFTER_SALE_REASON_TYPE  = 150; // 售后原因类型
+
+        // BOSS
+        TYPE_BOSS_PERMISSION_SET = 90; // 权限集合
+        TYPE_BOSS_USER           = 92; // boss用户
+
+        TYPE_DATA_SYNC_SEQUENCE                  = 200; // 数据同步序列表
+        TYPE_FINANCE_SETTLE                      = 300; // 结算
+        TYPE_FINANCE_AMOUNT_DISCOUNT             = 301; // 金额折让
+        TYPE_FINANCE_TRANSACTION_FLOW            = 302; // 交易流水
+        TYPE_FINANCE_ACCOUNT_BALANCE             = 303; // 账户余额
+        TYPE_FINANCE_SETTLE_SHEET_RELATION_INDEX = 304; // 站点与采购单关系表
+        TYPE_FINANCE_FISCAL_PERIOD               = 305; //帐期
+        TYPE_FINANCE_SETTLE_SHEET_DETAIL         = 306; // 账户余额
+
+        TYPE_FINANCE_ACCOUNTING_SUBJECT                 = 307; // 财务-会计科目
+        TYPE_FINANCE_ACCOUNTING_YEAR                    = 308; // 财务-会计年度
+        TYPE_FINANCE_ACCOUNTING_PERIOD                  = 309; // 财务-会计期间
+        TYPE_FINANCE_SETTLEMENT_ACCOUNT                 = 310; // 财务-结算账户
+        TYPE_FINANCE_SETTLEMENT_METHOD                  = 311; // 财务-结算方式
+        TYPE_FINANCE_ACCOUNTING_VOUCHER_TEMPLATE        = 312; // 财务-会计凭证模板
+        TYPE_FINANCE_ACCOUNTING_VOUCHER_TEMPLATE_DETAIL = 313; // 财务-会计凭证模板明细
+        TYPE_FINANCE_ACCOUNTING_VOUCHER                 = 314; // 财务-会计凭证
+        TYPE_FINANCE_ACCOUNTING_VOUCHER_DETAIL          = 315; // 财务-会计凭证明细
+        TYPE_FINANCE_ACCOUNTING_VOUCHER_SHEET_RELATION  = 316; // 财务-会计凭证
+        TYPE_FINANCE_ACCOUNTING_SUBJECT_TYPE            = 317; // 财务-会计科目
+
+        // MARKET
+        TYPE_MARKET_INQUIRY_SHEET  = 400; // 市场行情
+        TYPE_MARKET_MARKET         = 401; // 市场
+        TYPE_MARKET_MARKET_ADDRESS = 402; // 市场地址
+        reserved 500, 501;
+        reserved "TYPE_GM_ORDER", "TYPE_GM_ORDER_DETAIL";
+        // 以下类型仅用于定义，不占用号段
+        TYPE_FAKE_ANALYTICS_EXAMPLE        = 1000000; // 统计模块测试数据
+        TYPE_FAKE_ANALYTICS_EXAMPLE_TYPE_B = 1000001; // 统计模块测试数据，另外一种ModelType
+
+        // 设备接入
+        TYPE_DEVICE_DEVICE          = 700; // 设备
+        TYPE_DEVICE_DEVICESUPPLIER  = 701; // 设备供应商
+        TYPE_DEVICE_DEVICEGROUP     = 702; // 设备分组
+        TYPE_DEVICE_DEVICEDATA      = 703; // 设备数据
+        TYPE_DEVICE_DEVICEEXCEPTION = 704; // 设备异常
+        TYPE_DEVICE_DEVICEMODEL     = 705; // 设备型号
+        TYPE_DEVICE_DEVICEALARMRULE = 706; // 设备报警规则
+        TYPE_DEVICE_DEVICESTRATEGY  = 707; // 设备策略
+
+        //老架构订单数据
+        TYPE_GM_GM_ORDER        = 1000010; // 老架构订单
+        TYPE_GM_GM_ORDER_DETAIL = 1000011; // 老架构订单详情
+        // 支付系统
+        TYPE_PAYSYS_PAY_ORDER        = 800; // 支付订单
+        TYPE_PAYSYS_THIRD_PAY_RECORD = 801; // 第三方支付记录
+        TYPE_PAYSYS_PAY_ACCOUNT      = 802; // 支付账户
+        TYPE_PAYSYS_PAY_CONFIG       = 803; // 支付配
+        TYPE_PAYSYS_BANK_CARD        = 804; // 银行卡
+        TYPE_PAYSYS_ACCOUNT_ORDER    = 805; // 资金流水
+        TYPE_PAYSYS_PRE_REGISTER     = 806; // 商户预入驻
+
+        // 打印模块
+        TYPE_PRINTER_RECORD = 900; // 打印记录
+
+        // Eshop
+        TYPE_ESHOP_INVITE_CODE                         = 950; // 邀请码
+        TYPE_ESHOP_OPERATION_INFO                      = 951; // 学校运营信息
+        TYPE_ESHOP_STUDENT                             = 952; // 学生
+        TYPE_ESHOP_PARENT                              = 953; // 家长
+        TYPE_ESHOP_LEAVE_ORDER                         = 954; // 请假单
+        TYPE_ESHOP_LEAVE_ORDER_DETAIL                  = 955; // 请假单详情
+        TYPE_ESHOP_ADVANCED_ORDER                      = 956; // 预付单
+        TYPE_ESHOP_ADVANCED_ORDER_DETAIL               = 957; // 预付单详情
+        TYPE_ESHOP_PAYMENT_ORDER                       = 958; // 付款单
+        TYPE_ESHOP_CREATE_ORDER                        = 959; // 生产订单
+        TYPE_ESHOP_CUSTOMER_MENU                       = 960; // 学校班级关联的菜谱
+        TYPE_ESHOP_WALLET                              = 961; // 学生餐钱包
+        TYPE_ESHOP_PAY_RECORD                          = 962; // 支付记录
+        TYPE_ESHOP_SCHOOL_CYCLE_RELATION               = 963; // 周期信息和客户绑定关系
+        TYPE_ESHOP_CYCLE_INFO                          = 964; // 周期信息
+        TYPE_ESHOP_RECHARGE_RECORD                     = 966; // 充值记录详情
+        TYPE_ESHOP_PRODUCTION_SUMMARY                  = 967; // 生产汇总
+        TYPE_ESHOP_MENU_CATEGORY                       = 968; // 菜品分类
+        TYPE_ESHOP_MENU_MEAL                           = 969; // 菜谱餐次
+        TYPE_ESHOP_SEMESTER                            = 970; // 学期
+        TYPE_ESHOP_SEMESTER_CUSTOMER                   = 971; // 学期班级
+        TYPE_ESHOP_CYCLE_INFO_DETAIL                   = 972; // 学期详情
+        TYPE_ESHOP_MATERIAL_PRICE                      = 973; // AI菜谱-原料价格表
+        TYPE_ESHOP_BOM_RECOMMEND                       = 974; // AI菜谱-Bom推荐表
+        TYPE_ESHOP_BOM_MATERIAL_PRICE_RELATION         = 975; // AI菜谱-Bom原料价格关联表
+        TYPE_ESHOP_MENU_MATCHING                       = 976; // AI菜谱-菜谱搭配表
+        TYPE_ESHOP_MENU_MATCHING_DETAIL_RELATION       = 977; // AI菜谱-菜谱搭配与菜谱详情关联表
+        TYPE_ESHOP_MENU_MATCHING_MATERIAL_RELATION     = 978; // AI菜谱-菜谱搭配与Bom原料关联表
+        TYPE_ESHOP_MENU_MATCHING_PRICE_PARITY_RELATION = 979; // AI菜谱-菜谱搭配与比价结果关联表
+        TYPE_ESHOP_CONTAINER                           = 980; // -容器表
+        TYPE_ESHOP_SCHOOL_CONTAINER                    = 981; // -学校-容器关联表
+        TYPE_ESHOP_PRODUCTION_GEN_STATUS               = 982; // -生产单生成状态表
+        TYPE_ESHOP_TEACHER_CLASS_RELATION              = 983; // -老师班级关联表
+        TYPE_ESHOP_SCHOOL_CATERING_CONFIG              = 984; // -学校配餐配置表
+        TYPE_ESHOP_DINING_POINT                        = 985; // 就餐点
+        TYPE_ESHOP_ADVANCED_ORDER_PAY_RECORD           = 986; // -预付单支付记录关联表
+
+        // 应用平台
+        TYPE_APPLICATION_TEMPLATE       = 1001; // 应用模板
+        TYPE_APPLICATION_INSTANCE       = 1002; // 应用实例
+        TYPE_APPLICATION_MENUS          = 1003; // 应用菜单
+        TYPE_APPLICATION_REQUEST_RECORD = 1004; // 应用请求记录
+
+        TYPE_TOOLBOX_SHORT_URL      = 1005; // 短url
+        TYPE_FINANCE_FINANCIAL_FLOW = 1006; // 财务流水
+
+        // 日志系统
+        TYPE_LOG_SYSTEM_LOG_TEMPLATE = 510; // 日志系统自定义模板
+        TYPE_LOG_SYSTEM_LOG          = 511; // 日志系统记录
+        TYPE_LOG_SYSTEM_MONITOR_LOG  = 516; // 日志系统监控记录
+
+        TYPE_FINANCE_BILL_ORDER                 = 512; // 财务-账单
+        TYPE_ENTERPRISE_CUSTOMER_PRODUCT_ATTR   = 513; // 客户商品属性绑定关系
+        TYPE_ENTERPRISE_CUSTOMER_PRODUCT_CONFIG = 514; // 客户商品属性配置
+        TYPE_FINANCE_BILL_ORDER_DETAIL          = 515; // 财务-账单明细
+
+        // 元数据
+        TYPE_METADATA_MODEL_FIELD        = 520; // 模型字段
+        TYPE_METADATA_CUSTOM_FIELD_VALUE = 521; // 自定义字段值
+        TYPE_METADATA_FIELD_UI_SETTING   = 522; // 字段UI设置
+        TYPE_METADATA_FIELD_SCOPE        = 523; // 字段作用范围
+
+        // 溯源系统
+        TYPE_TRACE_TRACE_DOCUMENT                  = 550; // 溯源档案表
+        TYPE_TRACE_QUALITY_TESTING_REPORT          = 551; // 质检报告表
+        TYPE_TRACE_QUALITY_TESTING_REPORT_RELATION = 552; // 质检报告关联表
+        TYPE_TRACE_QUALITY_INSPECTION_TEMPLATE     = 553; // 质检模版
+        TYPE_TRACE_QUALITY_INSPECTION              = 554; // 质检报告
+
+        // 全局组件服务
+        TYPE_INFRA_LABEL          = 650; // 条码
+        TYPE_INFRA_LABEL_RELATION = 651; // 条码关联
+
+        TYPE_ID_GENERATOR_SETTINGS = 652; // 编码ID生成规则设置
+
+        TYPE_THIRDPLATFORM_BUSINESS_RELATION = 540; // 第三方平台数据映射
+        TYPE_DELIVERY_SHEET                  = 541; // 发货单
+
+        TYPE_GMOLD_SALE_OUT_STOCK_SHEET            = 542; // 老架构销售出库单
+        TYPE_GMOLD_SALE_OUT_STOCK_SHEET_DETAIL     = 543; // 老架构销售出库单明细
+        TYPE_GMOLD_PURCHASE_IN_STOCK_SHEET         = 544; // 老架构采购入库单
+        TYPE_GMOLD_PURCHASE_IN_STOCK_SHEET_DETAIL  = 545; // 老架构采购入库单明细
+        TYPE_GMOLD_PURCHASE_OUT_STOCK_SHEET        = 546; // 老架构采购退货出库单
+        TYPE_GMOLD_PURCHASE_OUT_STOCK_SHEET_DETAIL = 547; // 老架构采购退货出库单明细
+
+        //==============================消息模块===========================
+        TYPE_ENTERPRISE_BUSINESS_MESSAGE      = 999; // 业务消息
+        TYPE_ENTERPRISE_USER_MESSAGE_SETTINGS = 998; // 用户消息设置
+        TYPE_ENTERPRISE_USER_MESSAGE_RELATION = 997; // 用户关联的消息
+
+        //管理域仓储
+        TYPE_MANAGEINVENTORY_BATCHSTOCK             = 750; // 批次库存
+        TYPE_MANAGEINVENTORY_STOCKRECORD            = 751; // 台账
+        TYPE_MANAGEINVENTORY_BUSINESS_DOC           = 752; // 业务单据主表
+        TYPE_MANAGEINVENTORY_BUSINESS_DOC_DETAIL    = 753; // 业务单据明细
+        TYPE_MANAGEINVENTORY_WAREHOUSE              = 754; // 仓库
+        TYPE_MANAGEINVENTORY_WAREHOUSE_CATEGORY     = 755; // 仓库分类
+        TYPE_MANAGEINVENTORY_INVENTORY_TASK         = 756; // 盘点任务
+        TYPE_MANAGEINVENTORY_DOC_DETAIL_BATCH_GROUP = 758; // 单据明细批次组
+        TYPE_MANAGEINVENTORY_SUPPLIER_STATEMENT_DOC     = 759; // 供应商对账单
+        TYPE_MANAGEINVENTORY_STATEMENT_DOC_LOG     = 760; // 供应商对账单流水
+        //管理域仓储设置
+        TYPE_MANAGEINVENTORY_SETTING           = 770; // 仓储设置信息
+
+
+        // 管理域基础资料
+        TYPE_MANAGEBASE_CUSTOMER                    = 780; // 商户
+        TYPE_MANAGEBASE_PRODUCT                     = 781; // 商品
+        TYPE_MANAGEBASE_SUPPLIER                    = 782; // 供应商
+        TYPE_MANAGEBASE_SUPPLIER_CATEGORY           = 783; // 供应商分类
+        TYPE_MANAGEBASE_BRAND                       = 785; // 品牌
+        TYPE_MANAGEBASE_EMPLOYEE                    = 787; // 员工
+        TYPE_MANAGEBASE_EMPLOYEE_CATEGORY           = 788; // 员工分类
+        TYPE_MANAGEBASE_MEASURE_UNIT                = 789; // 单位
+        TYPE_MANAGEBASE_PRODUCT_CATEGORY            = 791; // 商品分类
+        TYPE_MANAGEBASE_PRODUCT_MULTI_UNIT          = 792; // 商品多单位
+        TYPE_MANAGEBASE_USER                        = 795; // 用户
+
+
+        //================================== 其它 model 编号大于1024 ==================================
+
+        // 微信
+        TYPE_WECHAT_AUTHIRUZED_USER    = 1028;
+        TYPE_PRODUCTION_MIDDLE_PRODUCT = 1029; // 中间半成品
+        TYPE_PRODUCTION_MIDDLE_IN_PRODUCT = 1036; // 中间半成品
+        TYPE_PRODUCTION_MIDDLE_OUT_PRODUCT = 1037; // 中间半成品
+
+        TYPE_MERCHANDISE_SKU_SNAPSHOT      = 1020; // 商品快照
+
+        //================================== clickhouse model 编号大于1024 ==================================
+        TYPE_INVENTORY_WIDE_STOCKLOG = 1025; // 库存记录
+        TYPE_ORDER_WIDE_ORDER_DETAIL = 1026; // 订单详情宽表
+        TYPE_ORDER_WIDE_ORDER        = 1027; // 订单宽表
+
+        TYPE_PRODUCTION_WIDE_TASK                           = 1035; // 生产需求宽表
+        TYPE_PRODUCTION_WIDE_PROCESS_TASK_RELATION          = 1030; // 生产需求任务关联关系宽表
+        TYPE_PRODUCTION_WIDE_PROCESS_TASK_COMMAND_INPUT     = 1031; // 生产指令投料宽表
+        TYPE_PRODUCTION_WIDE_PROCESS_TASK_COMMAND           = 1032; // 生产指令宽表
+        TYPE_PRODUCTION_WIDE_PROCESS_TASK_INPUT             = 1033; // 生产任务投料宽表
+        TYPE_PRODUCTION_WIDE_PROCESS_TASK                   = 1034; // 生产任务宽表
+        TYPE_PRODUCTION_WIDE_TASK_INPUT                     = 1038; // 原料宽表
+
+    }
+}
+
+message Server {
+    enum Type {
+        TYPE_UNSPECIFIED = 0;
+        TYPE_AFTERSALE   = 10;
+        TYPE_INVENTORY   = 20;
+    }
+}
+
+message Filters {
+    // 由于 Go 语言的限制，所有类型为 bool 的变量都默认为 false，导致我们无法直接使用类型为 bool 的字段表达「不限制、只搜索 true、只搜索 false」这种三元搜索条件。
+    // 为了这种情况，专门写了一个名为 Bool 的枚举，可以表达这类搜索条件
+    enum Bool {
+        ALL   = 0;
+        TRUE  = 1;
+        FALSE = 2;
+    }
+}
+message SetFlag {
+    // 设置标志位
+    enum Bool {
+        UNSPECIFIED = 0;
+        TRUE        = 1;
+        FALSE       = 2;
+    }
+}
+message Flag {
+    //标志位
+    enum Bool {
+        UNSPECIFIED = 0;
+        TRUE        = 1;
+        FALSE       = 2;
+    }
+}
+
+message App {
+    // 应用类型，第一方占用1-10000
+    enum Type {
+        TYPE_UNSPECIFIED   = 0;  // 未使用
+        TYPE_STATION       = 1;  // station
+        TYPE_BSHOP         = 2;  // bshop商城
+        TYPE_CSHOP         = 3;  // cshop商城
+        TYPE_ESHOP         = 4;  // eshop商城
+        TYPE_CMD           = 5;  // 命令行工具
+        TYPE_BOSS          = 6;  // boss
+        TYPE_PURCHASE      = 7;  // 采购小程序
+        TYPE_DRIVER_APP    = 8;  // 司机APP
+        TYPE_MES           = 9;  // 工位屏
+        TYPE_INVENTORY_PDA = 10; // 仓储PDA
+
+        TYPE_LITE_PURCHASER     = 100; // 菜小蜜-采购小程序，已废弃
+        TYPE_LITE_SUPPLIER      = 101; // 菜小蜜-收单小程序，已废弃
+        TYPE_LITE_COLLABORATION = 102; // 供应商协同
+
+        TYPE_LITE_BSHOP = 200; // 轻巧版-商城，观麦主体
+        TYPE_LITE_ADMIN = 201; // 轻巧版-移动管理端
+
+        TYPE_OPENGATE = 301; // 开放平台
+    }
+}
+
+message Image {
+    enum Type {
+        TYPE_UNSPECIFIED = 0;
+        TYPE_QINIU       = 1; // 七牛云
+        TYPE_TENCENT_COS = 2; // 腾讯云静态储存
+        TYPE_MINIO       = 3; // minio
+    }
+
+    Type   type   = 1; // 储存图片的云服务提供商
+    uint32 height = 2; // 图片高度（单位：像素）
+    uint32 weight = 3; // 图片宽度（单位：像素）
+    string path   = 4; // 图片路径，比如 "group_123/merchandise/ssu/674b84671ccd6b14c.png"
+}
+
+message Images {
+    repeated Image images = 1;
+}
+message Attachments {
+    repeated Attachment attachments=1;
+}
+message Attachment {
+    CloudServiceType type = 1; // 储存附件的云服务提供商
+    string           name = 2; // 附件名称
+    string           url  = 4; // 附件完整路径
+}
+
+//////////////////////////////// 排序 ////////////////////////////////
+
+// SortBy 描述了一个排序字段的信息。
+//
+// 关于排序的更多信息，请查看本工程的 README.md
+//
+message SortBy {
+    int32  field          = 1; // 需要排序的字段对应的枚举值。每个接口需要使用 `enum PagingField` 显示声明支持哪些排序字段。请查看本工程 README.md 获得完整的例子。
+    bool   desc           = 2; // desc 为 true 则是降序排序，desc 为 false 则是升序排序
+    uint64 model_field_id = 3; // 模型字段ID，搜索组件使用此字段指定排序字段
+    string field_name     = 4; // 字段名称，设置则优先使用字段名排序
+    bool   using_gbk      = 5; // 按GBK编码排序
+}
+
+//////////////////////////////// 分页 ////////////////////////////////
+
+
+/*
+下面是一个使用分页的接口的 proto 定义例子：
+
+    import "./common/proto/common.proto";
+    import "./include/protoc-gen-validate/validate.proto";
+
+    rpc ListBook(ListBookRequest) returns (ListBookResponse) {};
+
+    message ListBookRequest {
+        enum PagingField {
+            UNKNOW = 0;
+            NAME   = 1;
+            AUTHOR = 2;
+        }
+
+        ceres.common.PagingParams paging = 1 [ (validate.rules).message.required = true ];
+    }
+    message ListBookResponse {
+        repeated Book books = 1;
+        ceres.common.PagingParams paging = 2;
+    }
+
+List 接口原则上都需要 paging 参数，并将其设置为必填参数（通过 protoc-gen-validate 实现）。
+*/
+
+// PagingParams 用于在请求中描述需要的分页参数
+message PagingParams {
+    // 跳过多少条数据
+    uint32 offset   = 1;
+    uint64 sequence = 3;
+
+    // 如果为 true，则返回所有结果。limit 和 all 必须传且只传一个。使用 all 的时候必须非常谨慎，不要给服务器和数据库造成过大的压力。
+    // 不排除未来移除这个参数的可能。
+    bool all = 5;
+    // 参数all和limit不允许同时为空
+
+    // 每一页返回多少条数据（由于 protobuf 的限制，每一次传输有默认 4MB 的大小限制，所以 limit 不能太大）
+    uint32 limit = 2 [ (validate.rules).uint32 = {gte : 0, lte : 1000} ];
+
+    // 是否需要返回 count。处于性能考虑，只有当 offset 为 0 且 need_count 为 true 时才会返回 count。
+    bool need_count = 4;
+
+    // 不查询数据，用于仅统计总条数
+    bool not_query_data = 6;
+}
+
+// PagingResult 用于在响应中描述服务返回的分页信息
+message PagingResult {
+    bool  has_more = 1; // 是否还有更多数据
+    int64 count    = 4; // 当前搜索条件下，所有的数据数量为多少。
+}
+
+// 增量同步参数
+message SyncOptions {
+    // 数据类型
+    Model.Type model_type = 1;
+    // 分区
+    uint64 partition = 2;
+    // 同步最小版本号，即客户端已同步的最大版本号
+    uint64 sequence_min = 3;
+    // 同步最大版本号，用于规避“后生成的数据先写入数据库后，新生成的数据写入数据库前，这个时间窗口恰好有同步请求，那么后者将无法同步”的问题，要求业务对“实时”要求较低
+    uint64 sequence_max = 4;
+    // 版本号内偏移量
+    uint64 offset = 5;
+    // 分页大小，请勿修改validate.rules的gte
+    uint32 limit = 6 [ (validate.rules).uint32 = {gte : 2, lte : 1000} ];
+    reserved 7;
+    reserved "mode";
+}
+
+message ErrorMessage {
+    string msg = 1;
+}
+
+message CommonApolloConfig {
+    string mysql_common_host     = 1;
+    uint32 mysql_common_port     = 2;
+    string mysql_common_username = 3;
+    string mysql_common_password = 4;
+    string mysql_common_database = 5;
+
+    string mysql_purchase_host     = 6;
+    uint32 mysql_purchase_port     = 7;
+    string mysql_purchase_username = 8;
+    string mysql_purchase_password = 9;
+    string mysql_purchase_database = 10;
+
+    string mysql_inventory_host     = 11;
+    uint32 mysql_inventory_port     = 12;
+    string mysql_inventory_username = 13;
+    string mysql_inventory_password = 14;
+    string mysql_inventory_database = 15;
+
+    string mysql_production_host     = 16;
+    uint32 mysql_production_port     = 17;
+    string mysql_production_username = 18;
+    string mysql_production_password = 19;
+    string mysql_production_database = 20;
+
+    string mysql_order_host     = 21;
+    uint32 mysql_order_port     = 22;
+    string mysql_order_username = 23;
+    string mysql_order_password = 24;
+    string mysql_order_database = 25;
+
+    string mysql_eshop_order_host     = 26;
+    uint32 mysql_eshop_order_port     = 27;
+    string mysql_eshop_order_username = 28;
+    string mysql_eshop_order_password = 29;
+    string mysql_eshop_order_database = 30;
+
+    string mysql_infra_host     = 51;
+    uint32 mysql_infra_port     = 52;
+    string mysql_infra_username = 53;
+    string mysql_infra_password = 54;
+    string mysql_infra_database = 55;
+
+    string mysql_sorting_host     = 56;
+    uint32 mysql_sorting_port     = 57;
+    string mysql_sorting_username = 58;
+    string mysql_sorting_password = 59;
+    string mysql_sorting_database = 60;
+
+    string tdsql_ceres_host     = 64;
+    uint32 tdsql_ceres_port     = 65;
+    string tdsql_ceres_username = 66;
+    string tdsql_ceres_password = 67;
+    string tdsql_ceres_database = 68;
+
+    uint32              unified_mysql_with_namespace     = 61; // 是否使用统一的外部mysql数据库，且DB名称追加namespace，1：是，其他：否
+    repeated string     unified_mysql_exclude_namespaces = 62; // unified_mysql_with_namespace为1时，需要排除掉的namespace(过渡期间使用)
+    map<string, string> unified_mysql_config             = 63; // 统一的外部mysql连接配置，默认为空表示使用每个模块自定义的mysql_xxx_host/port(过渡期间使用)
+
+    string redis_db0_host     = 101;
+    uint32 redis_db0_port     = 102;
+    string redis_db0_username = 103;
+    string redis_db0_password = 104;
+
+    string redis_merchandise_host     = 105;
+    uint32 redis_merchandise_port     = 106;
+    string redis_merchandise_username = 107;
+    string redis_merchandise_password = 108;
+
+    string redis_manage_host     = 109;
+    uint32 redis_manage_port     = 110;
+    string redis_manage_username = 111;
+    string redis_manage_password = 112;
+
+    string qiniu_bucket     = 121;
+    string qiniu_access_key = 122;
+    string qiniu_secret_key = 123;
+
+    string click_house_ceres_host     = 131;
+    uint32 click_house_ceres_port     = 132;
+    string click_house_ceres_database = 133;
+
+    string click_house_gm_host     = 134;
+    uint32 click_house_gm_port     = 135;
+    string click_house_gm_database = 136;
+
+    string kafka_ceres_source = 151;
+    string observability_kafka_ceres_source = 152;
+
+    string cos_app_id            = 161;
+    string cos_secret_id         = 162;
+    string cos_secret_key        = 163;
+    string cos_bucket            = 164;
+    string cos_async_result_file = 165;
+
+    string          wechat_work_jwt_secret                  = 171;
+    string          wechat_work_boss_corp_id                = 172;
+    string          wechat_work_boss_app_agent_id           = 173;
+    string          wechat_work_boss_app_secret             = 174;
+    repeated string wechat_work_boss_allow_phones           = 175;
+    repeated string wechat_work_boss_allow_clen_data_phones = 176;
+
+    string extra_gm_statistics_auth_token = 181;
+
+    string mongo_stock_readonly_host     = 191;
+    string mongo_stock_readonly_port     = 192;
+    string mongo_stock_readonly_username = 193;
+    string mongo_stock_readonly_password = 194;
+    string mongo_stock_readonly_database = 195;
+
+    string mongo_product_readonly_host     = 196;
+    string mongo_product_readonly_port     = 197;
+    string mongo_product_readonly_username = 198;
+    string mongo_product_readonly_password = 199;
+    string mongo_product_readonly_database = 200;
+
+    repeated string elasticsearch_addresses = 201;
+    string          elasticsearch_username  = 202;
+    string          elasticsearch_password  = 203;
+
+    int32 data_source = 204;
+
+    string es_index_namespace = 205; // ES索引命名空间，配置为${GM_K8S_NAMESPACE}则读取环境变量，否则为配置指定的命名空间
+
+    uint64 cost_center_app_template_id = 210; // Deprecated: 成本中心 app 模版 id TODO 废弃
+    string register_cost_center_url    = 211; // 成本中心开通接口
+    string close_cost_center_url       = 212; // 成本中心关闭接口
+    string cost_kafka_ceres_source     = 213; // 成本中心 kafka 地址
+
+    string mysql_manage_base_host     = 214; // 管理域基础资料库表
+    uint32 mysql_manage_base_port     = 215;
+    string mysql_manage_base_username = 216;
+    string mysql_manage_base_password = 217;
+    string mysql_manage_base_database = 218;
+
+    string mysql_manage_inventory_host     = 219; // 管理域仓库库表
+    uint32 mysql_manage_inventory_port     = 220;
+    string mysql_manage_inventory_username = 221;
+    string mysql_manage_inventory_password = 222;
+    string mysql_manage_inventory_database = 223;
+
+    map<string,string> enable_manage_domain_group_map = 224; // 管理域同步GroupID集合
+}
+
+// 查询条件
+message QueryCriteria {
+    uint64          model_field_id       = 1; // 模型字段ID
+    CompareType     compare_type         = 2; // 比较方式
+    repeated string compare_value        = 3; // 比较值
+    string          field_name           = 4; // 字段全名，与model_field_id任选一项确定唯一字段
+    string          minimum_should_match = 5; // 匹配精度系数，支持数字和百分比
+}
+
+// 查询条件组
+message QueryCriteriaGroup {
+    AndOrType                   and_or_type           = 1; // 与或条件
+    repeated QueryCriteria      query_criterias       = 2; // 查询条件列表
+    repeated QueryCriteriaGroup query_criteria_groups = 3; // 查询条件组列表
+    DataSource                  data_source           = 4; // 查询的数据源，不传则优先es
+    string                      minimum_should_match  = 5; // 匹配精度系数，支持数字和百分比
+    bool                        need_delete           = 6; // 是否查询已删除的
+    bool                        not_filter_group      = 7; // 不过滤企业
+    bool                        need_custom_field     = 8; // 是否查询出自定义字段值
+}
+
+// 用于DB协议继承，用于自定义字段值读写
+message CustomField {
+    // @inject_tag: gorm:"-:migration;->"
+    uint64 model_field_id = 1; // 模型字段ID
+    // @inject_tag: gorm:"-:migration;->"
+    uint64 custom_field_value_id = 2; // 自定义字段值ID，为空则新建值，不为空则更新值
+    // @inject_tag: gorm:"-:migration;->"
+    string field_value = 3; // 字段值
+    // @inject_tag: gorm:"-:migration;->"
+    string field_name = 4; // 字段名称，仅供调试方便查看，无实际意义
+    // @inject_tag: gorm:"-:migration;->"
+    uint64 delete_time = 5; // 大于0标记为已删除
+    // @inject_tag: gorm:"-:migration;->"
+    string model_id = 6; // 关联模型主键值
+    // @inject_tag: gorm:"-:migration;->"
+    string field_desc = 7; // 字段描述，仅供调试方便查看，无实际意义
+    // @inject_tag: gorm:"-:migration;->"
+    uint64 data_source_model_field_id = 8; // 数据来源字段ID，默认为字段自身ID
+}
+
+message OTLPApolloConfig {
+    // 基于 Span Name 的采样
+    message NameBasedSampling {
+        // 被采样的 Span
+        message Item {
+            // Span Name 的正则表达式
+            string name_regexp = 1;
+            // 采样周期，输入能被 time.ParseDuration 函数识别的字符串
+            string sample_interval = 2;
+        }
+        // 只针对该 rpc system 的 span 进行采样
+        string        rpc_system = 1;
+        repeated Item items      = 2;
+        // 是否输出日志
+        bool verbose = 3;
+    }
+    repeated NameBasedSampling name_based_sampling = 1;
+}

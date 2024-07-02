@@ -5,8 +5,8 @@ package ceres.account;
 option go_package = "code.guanmai.cn/back_end/ceres/app/account/api/model;model";
 option java_multiple_files = true;
 
-// import "google/api/annotations.proto";
-// import "include/protoc-gen-validate/validate/validate.proto";
+// 
+// 
 
 service AccountService {
     rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
