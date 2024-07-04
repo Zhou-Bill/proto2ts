@@ -102,11 +102,11 @@ const formatJson = async (params: {
   const jsonFileName = `${fileName.replace('.proto', '.json')}`
 
   const root = json.nested?.[PROJECT_NAME] as protobuf.INamespace
-  const serviceRoot = root.nested?.['account']
+  const serviceRoot = root.nested?.['merchandise']
   
   const result1 = transfer(serviceRoot!)
   const result = transferToTemplate(result1.result, {
-    rootName: 'account',
+    rootName: 'merchandise',
     map: result1.map
   })
 
