@@ -6,7 +6,7 @@ export type AllDataType = {
   types: protobuf.IType,
   enums: protobuf.IEnum,
 }
-const whiteList = ['common', 'enterprise', 'merchandise', 'asynctask', 'finance']
+const whiteList = ['common', 'enterprise', 'merchandise', 'asynctask', 'finance', 'account']
 
 
 const formatString = (type: string) => {
@@ -48,9 +48,10 @@ export const transfer = (rootJson: protobuf.AnyNestedObject) => {
     types: {},
     enums: {},
   } as AllDataType
+  const map = {}
 
   if (!rootJson) {
-    return result
+    return { result, map }
   }
 
   const walk = (json: protobuf.AnyNestedObject, res: AllDataType, prefix: string) => {
@@ -74,6 +75,7 @@ export const transfer = (rootJson: protobuf.AnyNestedObject) => {
       if ('fields' in value) {
         const fieldsValue: protobuf.IType = value
         const fieldKey = prefix ? `${prefix}${key}`.replace(/\./g, '_') : `${key}`
+        map[key] = fieldKey
         result.types = {...result.types, [fieldKey]: {...fieldsValue, prefix: `${prefix}`, sourceKey: key, path: [...prefix.split('.'), key], parentNode: root }}
       }
 
@@ -81,6 +83,7 @@ export const transfer = (rootJson: protobuf.AnyNestedObject) => {
       if ("values" in value) {
         const enumValue: protobuf.IEnum = value
         const fieldKey = prefix ? `${prefix}${key}`.replace(/\./g, '_') : `${key}`
+        map[key] = fieldKey
         result.enums = {...result.enums, [fieldKey]: {...enumValue, prefix: `${prefix}`, sourceKey: key,  path: [...prefix.split('.'), key] } }
       }
 
@@ -92,7 +95,7 @@ export const transfer = (rootJson: protobuf.AnyNestedObject) => {
 
   walk(rootJson, result, '')
 
-  return result
+  return { result, map }
 }
 
 type CommonParams = {
@@ -206,11 +209,6 @@ export const transfer2Types = (options: Transfer2TypesParams) => {
       finalType = `${fieldName}.${type}`.replace(/\./g, '_')
     } else {
       /** 如果当前类型是 Account.Type 这样拼接，且是首字母是小写 */
-
-      if ((key === 'menu_period_group' && type === 'MenuPeriodGroup')) {
-        console.log(findTypeFromPath(path, type))
-        console.log(formatString(type), path)
-      }
       /** 路径反序匹配 */
       finalType = map[type] || map[findTypeFromPath(path, type)] ||  formatString(type)
     }
@@ -234,7 +232,7 @@ export const transfer2Types = (options: Transfer2TypesParams) => {
     fieldName: fieldName,
   })
 
-  map[service.sourceKey] = fieldName
+  // map[service.sourceKey] = fieldName
   return onAfterTransfer?.(res) || res
 }
 
@@ -263,7 +261,6 @@ export const transfer2Enum = (options: Transfer2EnumParams) => {
 
   res = getTemplate(nameSpaceTemplate, {
     items: data,
-    // fieldName: service.prefix.replace(/\./g, '_')
     fieldName: fieldName,
   })
 

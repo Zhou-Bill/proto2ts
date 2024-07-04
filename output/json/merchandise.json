@@ -4180,6 +4180,51 @@
                     }
                   ]
                 },
+                "ExportBasicPriceByCustomerId": {
+                  "requestType": "ExportBasicPriceByCustomerIdRequest",
+                  "responseType": "ExportBasicPriceByCustomerIdResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/ExportBasicPriceByCustomerId"
+                  },
+                  "comment": "导出某个客户的报价单；目前只用于轻巧版报价单导出",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/ExportBasicPriceByCustomerId"
+                      }
+                    }
+                  ]
+                },
+                "ExportSpecialBasicPrice": {
+                  "requestType": "ExportSpecialBasicPriceRequest",
+                  "responseType": "ExportSpecialBasicPriceResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/ExportSpecialBasicPrice"
+                  },
+                  "comment": "批量导出客户协议价",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/ExportSpecialBasicPrice"
+                      }
+                    }
+                  ]
+                },
+                "ImportSpecialBasicPrice": {
+                  "requestType": "ImportSpecialBasicPriceRequest",
+                  "responseType": "ImportSpecialBasicPriceResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/ImportSpecialBasicPrice"
+                  },
+                  "comment": "批量导入客户协议价",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/ImportSpecialBasicPrice"
+                      }
+                    }
+                  ]
+                },
                 "CreateBasicPriceSnapshot": {
                   "requestType": "CreateBasicPriceSnapshotRequest",
                   "responseType": "CreateBasicPriceSnapshotResponse",
@@ -4390,6 +4435,21 @@
                     }
                   ]
                 },
+                "DeleteManyBasicPriceV2": {
+                  "requestType": "DeleteManyBasicPriceV2Request",
+                  "responseType": "DeleteManyBasicPriceV2Response",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/DeleteManyBasicPriceV2"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/DeleteManyBasicPriceV2"
+                      }
+                    }
+                  ]
+                },
                 "AsyncDeleteManySpecialBasicPriceV2": {
                   "requestType": "AsyncDeleteManySpecialBasicPriceV2Request",
                   "responseType": "AsyncDeleteManySpecialBasicPriceV2Response",
@@ -4461,6 +4521,186 @@
                     {
                       "(google.api.http)": {
                         "post": "/ceres/merchandise/MerchandiseService/ExportQuotation"
+                      }
+                    }
+                  ]
+                },
+                "ImportQuotationCreateBySsu": {
+                  "requestType": "ImportQuotationCreateBySsuRequest",
+                  "responseType": "ImportQuotationCreateBySsuResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/ImportQuotationCreateBySsu"
+                  },
+                  "comment": "按商品",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/ImportQuotationCreateBySsu"
+                      }
+                    }
+                  ]
+                },
+                "ImportQuotationChangeBySsu": {
+                  "requestType": "ImportQuotationChangeBySsuRequest",
+                  "responseType": "ImportQuotationChangeBySsuResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/ImportQuotationChangeBySsu"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/ImportQuotationChangeBySsu"
+                      }
+                    }
+                  ]
+                },
+                "CreateQuotationBasicPrice": {
+                  "requestType": "CreateQuotationBasicPriceRequest",
+                  "responseType": "CreateQuotationBasicPriceResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/CreateQuotationBasicPrice"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/CreateQuotationBasicPrice"
+                      }
+                    }
+                  ]
+                },
+                "UpdateQuotationBasicPrice": {
+                  "requestType": "UpdateQuotationBasicPriceRequest",
+                  "responseType": "UpdateQuotationBasicPriceResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/UpdateQuotationBasicPrice"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/UpdateQuotationBasicPrice"
+                      }
+                    }
+                  ]
+                },
+                "CreateQuotationBasicPriceV2": {
+                  "requestType": "CreateQuotationBasicPriceV2Request",
+                  "responseType": "CreateQuotationBasicPriceV2Response",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/CreateQuotationBasicPriceV2"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/CreateQuotationBasicPriceV2"
+                      }
+                    }
+                  ]
+                },
+                "UpdateQuotationBasicPriceV2": {
+                  "requestType": "UpdateQuotationBasicPriceV2Request",
+                  "responseType": "UpdateQuotationBasicPriceV2Response",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/UpdateQuotationBasicPriceV2"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/UpdateQuotationBasicPriceV2"
+                      }
+                    }
+                  ]
+                },
+                "GetImportQuotationBasicPriceTemplate": {
+                  "requestType": "GetImportQuotationBasicPriceTemplateRequest",
+                  "responseType": "GetImportQuotationBasicPriceTemplateResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/GetImportQuotationBasicPriceTemplate"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/GetImportQuotationBasicPriceTemplate"
+                      }
+                    }
+                  ]
+                },
+                "CreateBasicPriceByPurchaseUser": {
+                  "requestType": "CreateBasicPriceByPurchaseUserRequest",
+                  "responseType": "CreateBasicPriceByPurchaseUserResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/CreateBasicPriceByPurchaseUser"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/CreateBasicPriceByPurchaseUser"
+                      }
+                    }
+                  ]
+                },
+                "BulkImportBasicPriceV2": {
+                  "requestType": "BulkImportBasicPriceV2Request",
+                  "responseType": "BulkImportBasicPriceV2Response",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/BulkImportBasicPriceV2"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/BulkImportBasicPriceV2"
+                      }
+                    }
+                  ]
+                },
+                "BulkImportBasicPriceV2Lite": {
+                  "requestType": "BulkImportBasicPriceV2LiteRequest",
+                  "responseType": "BulkImportBasicPriceV2LiteResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/BulkImportBasicPriceV2Lite"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/BulkImportBasicPriceV2Lite"
+                      }
+                    }
+                  ]
+                },
+                "GetBulkImportBasicPriceV2LiteErr": {
+                  "requestType": "GetBulkImportBasicPriceV2LiteErrRequest",
+                  "responseType": "GetBulkImportBasicPriceV2LiteErrResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/GetBulkImportBasicPriceV2LiteErr"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/GetBulkImportBasicPriceV2LiteErr"
+                      }
+                    }
+                  ]
+                },
+                "BulkImportCustomerBasicPriceV2": {
+                  "requestType": "BulkImportCustomerBasicPriceV2Request",
+                  "responseType": "BulkImportCustomerBasicPriceV2Response",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/BulkImportCustomerBasicPriceV2"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/BulkImportCustomerBasicPriceV2"
                       }
                     }
                   ]
@@ -6472,6 +6712,126 @@
                     {
                       "(google.api.http)": {
                         "post": "/ceres/merchandise/MerchandiseService/SetSkuCount"
+                      }
+                    }
+                  ]
+                },
+                "GetSkuCount": {
+                  "requestType": "GetSkuCountRequest",
+                  "responseType": "GetSkuCountResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/GetSkuCount"
+                  },
+                  "comment": "获取sku下单数、搜索树",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/GetSkuCount"
+                      }
+                    }
+                  ]
+                },
+                "OrderDetailEventListener": {
+                  "requestType": "OrderDetailEventListenerRequest",
+                  "responseType": "OrderDetailEventListenerResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/OrderDetailEventListener"
+                  },
+                  "comment": "订单详情监听",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/OrderDetailEventListener"
+                      }
+                    }
+                  ]
+                },
+                "CustomerProductConfigEventListener": {
+                  "requestType": "CustomerProductConfigEventListenerRequest",
+                  "responseType": "CustomerProductConfigEventListenerResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/CustomerProductConfigEventListener"
+                  },
+                  "comment": "客户商品监听",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/CustomerProductConfigEventListener"
+                      }
+                    }
+                  ]
+                },
+                "SkuEventListener": {
+                  "requestType": "SkuEventListenerRequest",
+                  "responseType": "SkuEventListenerResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/SkuEventListener"
+                  },
+                  "comment": "商品监听",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/SkuEventListener"
+                      }
+                    }
+                  ]
+                },
+                "SyncQuotationBasicPriceByImport": {
+                  "requestType": "SyncQuotationBasicPriceByImportRequest",
+                  "responseType": "SyncQuotationBasicPriceByImportResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/SyncQuotationBasicPriceByImport"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/SyncQuotationBasicPriceByImport"
+                      }
+                    }
+                  ]
+                },
+                "AsyncManagebaseSkuEventListener": {
+                  "requestType": "AsyncManagebaseSkuEventListenerRequest",
+                  "responseType": "AsyncManagebaseSkuEventListenerResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuEventListener"
+                  },
+                  "comment": "同步管理域基础资料",
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuEventListener"
+                      }
+                    }
+                  ]
+                },
+                "AsyncManagebaseSkuCategoryEventListener": {
+                  "requestType": "AsyncManagebaseSkuCategoryEventListenerRequest",
+                  "responseType": "AsyncManagebaseSkuCategoryEventListenerResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuCategoryEventListener"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuCategoryEventListener"
+                      }
+                    }
+                  ]
+                },
+                "AsyncManagebaseSkuUnitEventListener": {
+                  "requestType": "AsyncManagebaseSkuUnitEventListenerRequest",
+                  "responseType": "AsyncManagebaseSkuUnitEventListenerResponse",
+                  "options": {
+                    "(google.api.http).post": "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuUnitEventListener"
+                  },
+                  "comment": null,
+                  "parsedOptions": [
+                    {
+                      "(google.api.http)": {
+                        "post": "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuUnitEventListener"
                       }
                     }
                   ]
@@ -23719,6 +24079,14 @@
                   "comment": null
                 }
               },
+              "comment": null
+            },
+            "InitMenuInfoRequest": {
+              "fields": {},
+              "comment": null
+            },
+            "InitMenuInfoResponse": {
+              "fields": {},
               "comment": null
             },
             "AsyncDeleteManySpecialBasicPriceV2Request": {

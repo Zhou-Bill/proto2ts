@@ -30,8 +30,10 @@ const main = async () => {
 
 const transferToTemplate = (params: AllDataType, options: {
   rootName: string
+  map: any
 }) => {
   const { methods, types, enums } = params
+  const { map, rootName } = options
   const result = {
     enums: '',
     types: '',
@@ -69,7 +71,7 @@ const transferToTemplate = (params: AllDataType, options: {
     importName: './enums'
   })
   result.types += header
-  const map: Record<string, any> = {}
+  // const map: Record<string, any> = {}
   imports.forEach((_key) => {
     result.types += transfer2Types({
       service: types[_key],
@@ -100,11 +102,12 @@ const formatJson = async (params: {
   const jsonFileName = `${fileName.replace('.proto', '.json')}`
 
   const root = json.nested?.[PROJECT_NAME] as protobuf.INamespace
-  const serviceRoot = root.nested?.['merchandise']
+  const serviceRoot = root.nested?.['account']
   
   const result1 = transfer(serviceRoot!)
-  const result = transferToTemplate(result1, {
-    rootName: 'merchandise'
+  const result = transferToTemplate(result1.result, {
+    rootName: 'account',
+    map: result1.map
   })
 
   pool.addTask(() => {

@@ -7,6 +7,15 @@ option go_package = "code.guanmai.cn/back_end/ceres/app/merchandise/api/model;mo
 
 
 
+
+
+
+
+
+
+
+
+
 service MerchandiseService {
     // 系统自动添加，请勿删除
     rpc DeletePackUnit(DeletePackUnitRequest) returns (DeletePackUnitResponse) {
@@ -1873,6 +1882,27 @@ service MerchandiseService {
         };
     }
 
+    // 导出某个客户的报价单；目前只用于轻巧版报价单导出
+    rpc ExportBasicPriceByCustomerId(ExportBasicPriceByCustomerIdRequest) returns (ExportBasicPriceByCustomerIdResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/ExportBasicPriceByCustomerId"
+        };
+    }
+
+    // 批量导出客户协议价
+    rpc ExportSpecialBasicPrice(ExportSpecialBasicPriceRequest) returns (ExportSpecialBasicPriceResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/ExportSpecialBasicPrice"
+        };
+    }
+
+    // 批量导入客户协议价
+    rpc ImportSpecialBasicPrice(ImportSpecialBasicPriceRequest) returns (ImportSpecialBasicPriceResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/ImportSpecialBasicPrice"
+        };
+    }
+
     rpc CreateBasicPriceSnapshot(CreateBasicPriceSnapshotRequest) returns (CreateBasicPriceSnapshotResponse) {
         option (google.api.http) = {
             post : "/ceres/merchandise/MerchandiseService/CreateBasicPriceSnapshot"
@@ -1967,6 +1997,11 @@ service MerchandiseService {
     //        };
     //    }
 
+    rpc DeleteManyBasicPriceV2(DeleteManyBasicPriceV2Request) returns (DeleteManyBasicPriceV2Response) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/DeleteManyBasicPriceV2"
+        };
+    }
 
     rpc AsyncDeleteManySpecialBasicPriceV2(AsyncDeleteManySpecialBasicPriceV2Request) returns (AsyncDeleteManySpecialBasicPriceV2Response) {
         option (google.api.http) = {
@@ -1998,6 +2033,77 @@ service MerchandiseService {
         };
     }
 
+    // 按商品
+    rpc ImportQuotationCreateBySsu(ImportQuotationCreateBySsuRequest) returns (ImportQuotationCreateBySsuResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/ImportQuotationCreateBySsu"
+        };
+    }
+    rpc ImportQuotationChangeBySsu(ImportQuotationChangeBySsuRequest) returns (ImportQuotationChangeBySsuResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/ImportQuotationChangeBySsu"
+        };
+    }
+
+    rpc CreateQuotationBasicPrice(CreateQuotationBasicPriceRequest) returns (CreateQuotationBasicPriceResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/CreateQuotationBasicPrice"
+        };
+    }
+
+    rpc UpdateQuotationBasicPrice(UpdateQuotationBasicPriceRequest) returns (UpdateQuotationBasicPriceResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/UpdateQuotationBasicPrice"
+        };
+    }
+
+    rpc CreateQuotationBasicPriceV2(CreateQuotationBasicPriceV2Request) returns (CreateQuotationBasicPriceV2Response) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/CreateQuotationBasicPriceV2"
+        };
+    }
+
+    rpc UpdateQuotationBasicPriceV2(UpdateQuotationBasicPriceV2Request) returns (UpdateQuotationBasicPriceV2Response) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/UpdateQuotationBasicPriceV2"
+        };
+    }
+
+    rpc GetImportQuotationBasicPriceTemplate(GetImportQuotationBasicPriceTemplateRequest) returns (GetImportQuotationBasicPriceTemplateResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/GetImportQuotationBasicPriceTemplate"
+        };
+    }
+
+    rpc CreateBasicPriceByPurchaseUser(CreateBasicPriceByPurchaseUserRequest) returns (CreateBasicPriceByPurchaseUserResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/CreateBasicPriceByPurchaseUser"
+        };
+    }
+
+    rpc BulkImportBasicPriceV2(BulkImportBasicPriceV2Request) returns (BulkImportBasicPriceV2Response) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/BulkImportBasicPriceV2"
+        };
+    };
+
+    rpc BulkImportBasicPriceV2Lite(BulkImportBasicPriceV2LiteRequest) returns (BulkImportBasicPriceV2LiteResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/BulkImportBasicPriceV2Lite"
+        };
+    };
+
+    rpc GetBulkImportBasicPriceV2LiteErr(GetBulkImportBasicPriceV2LiteErrRequest) returns (GetBulkImportBasicPriceV2LiteErrResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/GetBulkImportBasicPriceV2LiteErr"
+        };
+    }
+
+    rpc BulkImportCustomerBasicPriceV2(BulkImportCustomerBasicPriceV2Request) returns (BulkImportCustomerBasicPriceV2Response) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/BulkImportCustomerBasicPriceV2"
+        };
+    };
 
     rpc ExportBasicPriceV2(ExportBasicPriceV2Request) returns (ExportBasicPriceV2Response) {
         option (google.api.http) = {
@@ -2852,6 +2958,54 @@ service MerchandiseService {
     rpc SetSkuCount(SetSkuCountRequest) returns (SetSkuCountResponse) {
         option (google.api.http) = {
             post : "/ceres/merchandise/MerchandiseService/SetSkuCount"
+        };
+    }
+    //获取sku下单数、搜索树
+    rpc GetSkuCount(GetSkuCountRequest) returns (GetSkuCountResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/GetSkuCount"
+        };
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    //订单详情监听
+    rpc OrderDetailEventListener(OrderDetailEventListenerRequest) returns (OrderDetailEventListenerResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/OrderDetailEventListener"
+        };
+    }
+    //客户商品监听
+    rpc CustomerProductConfigEventListener(CustomerProductConfigEventListenerRequest) returns (CustomerProductConfigEventListenerResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/CustomerProductConfigEventListener"
+        };
+    }
+    //商品监听
+    rpc SkuEventListener(SkuEventListenerRequest) returns (SkuEventListenerResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/SkuEventListener"
+        };
+    }
+    rpc SyncQuotationBasicPriceByImport(SyncQuotationBasicPriceByImportRequest) returns (SyncQuotationBasicPriceByImportResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/SyncQuotationBasicPriceByImport"
+        };
+    }
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    //同步管理域基础资料
+    rpc AsyncManagebaseSkuEventListener(AsyncManagebaseSkuEventListenerRequest) returns (AsyncManagebaseSkuEventListenerResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuEventListener"
+        };
+    }
+    rpc AsyncManagebaseSkuCategoryEventListener(AsyncManagebaseSkuCategoryEventListenerRequest) returns (AsyncManagebaseSkuCategoryEventListenerResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuCategoryEventListener"
+        };
+    }
+    rpc AsyncManagebaseSkuUnitEventListener(AsyncManagebaseSkuUnitEventListenerRequest) returns (AsyncManagebaseSkuUnitEventListenerResponse) {
+        option (google.api.http) = {
+            post : "/ceres/merchandise/MerchandiseService/AsyncManagebaseSkuUnitEventListener"
         };
     }
 }
@@ -8857,6 +9011,11 @@ message ImportSpecialBasicPriceResponse {
     asynctask.Task task = 1;
 }
 
+message InitMenuInfoRequest {
+}
+
+message InitMenuInfoResponse {
+}
 
 // message DeleteBasicPriceRequest {
 //     BasicPriceId          basic_price_id       = 1;
