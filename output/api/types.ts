@@ -261,7 +261,7 @@ export interface ImportSkuNutritionData {
    /** 表头 */ 
   header?: ImportSkuNutritionData_Rows
    /** 表格内容 */ 
-  row_map?: ImportSkuNutritionData_Rows
+  row_map?: Record<string, ImportSkuNutritionData_Rows>
    /** 错误数据 */ 
   error_rows?: ImportSkuNutritionData_Rows[]
 }
@@ -684,7 +684,7 @@ export interface Sku_UnitList {
 export interface Sku_RelatedCombineSkuIdsMap {
   axiosConfig?: AxiosRequestConfig,
    /** 组合商品关联表。 key 是unit_id, value 是这个商品对应的组合商品的id列表 */ 
-  related_combine_sku_ids_map?: Uint64List
+  related_combine_sku_ids_map?: Record<string, Uint64List>
 }
 
 export interface Sku_SkuLevel {
@@ -1786,7 +1786,7 @@ export interface Uint64List {
 export interface CategoryTreeCache {
   axiosConfig?: AxiosRequestConfig,
    /** key 是CategoryId */ 
-  category_link?: CategoryTreeCache_CategoryInfo
+  category_link?: Record<string, CategoryTreeCache_CategoryInfo>
 }
 
 export interface CategoryTreeCache_CategoryInfo {
@@ -1817,7 +1817,7 @@ export interface RuleSetCache {
 export interface CustomerPriceRuleCache {
   axiosConfig?: AxiosRequestConfig,
    /** key 是customer_id，将每个商户 */ 
-  customer_rule?: CustomerPriceRuleCache_CustomerRuleSet
+  customer_rule?: Record<string, CustomerPriceRuleCache_CustomerRuleSet>
    /** 更新时间 */ 
   version?: string
 }
@@ -1830,7 +1830,7 @@ export interface CustomerPriceRuleCache_CustomerRuleSet {
 export interface RuleSetDisableSsuCache {
   axiosConfig?: AxiosRequestConfig,
    /** key rule_set_id */ 
-  rule_set_id_disable_ssu?: RuleSetDisableSsuCache_CustomerDisableSsuList
+  rule_set_id_disable_ssu?: Record<string, RuleSetDisableSsuCache_CustomerDisableSsuList>
    /** 更新时间 */ 
   version?: string
 }
@@ -1843,7 +1843,7 @@ export interface RuleSetDisableSsuCache_CustomerDisableSsuList {
 export interface RuleSetPriceCache {
   axiosConfig?: AxiosRequestConfig,
    /** key 假设说现在客户和3个rule_set（1，2，3）绑定 ,key就是"1-2-3",没有规则的原价，key是"" */ 
-  rule_set_price?: RuleSetPriceCache_SsuPrice
+  rule_set_price?: Record<string, RuleSetPriceCache_SsuPrice>
 }
 
 export interface RuleSetPriceCache_SsuPrice {
@@ -1856,7 +1856,7 @@ export interface RuleSetPriceCache_SsuPrice {
 
 export interface SkuAliasCache {
   axiosConfig?: AxiosRequestConfig,
-  sku_alias_cache?: SkuAliasCache_AliasCache
+  sku_alias_cache?: Record<string, SkuAliasCache_AliasCache>
 }
 
 export interface SkuAliasCache_AliasCache {
@@ -1910,21 +1910,21 @@ export interface ReferencePrice_ReferencePriceValue {
 export interface ReferencePrice_ReferencePriceMap {
   axiosConfig?: AxiosRequestConfig,
    /** key ReferencePrice.Type */ 
-  reference_price_map?: ReferencePrice_ReferencePriceValue
+  reference_price_map?: Record<string, ReferencePrice_ReferencePriceValue>
 }
 
 export interface ReferencePrice_SupplierReferencePriceData {
   axiosConfig?: AxiosRequestConfig,
    /** key 为供应商ID,库存均价 */ 
-  supplier_agreement_price?: ReferencePrice_ReferencePriceValue
+  supplier_agreement_price?: Record<string, ReferencePrice_ReferencePriceValue>
    /** key 为供应商ID,供应商最近询价 */ 
-  supplier_last_inquiry_price?: ReferencePrice_ReferencePriceValue
+  supplier_last_inquiry_price?: Record<string, ReferencePrice_ReferencePriceValue>
    /** key 为供应商ID,供应商最近入库价 */ 
-  supplier_last_in_stock_price?: ReferencePrice_ReferencePriceValue
+  supplier_last_in_stock_price?: Record<string, ReferencePrice_ReferencePriceValue>
    /** key 为供应商ID，供应商最近入库价（供应商直供） */ 
-  supplier_last_in_stock_supplier_price?: ReferencePrice_ReferencePriceValue
+  supplier_last_in_stock_supplier_price?: Record<string, ReferencePrice_ReferencePriceValue>
    /** key 为供应商ID，供应商最近入库价（市场自采） */ 
-  supplier_last_in_stock_market_price?: ReferencePrice_ReferencePriceValue
+  supplier_last_in_stock_market_price?: Record<string, ReferencePrice_ReferencePriceValue>
 }
 
 export interface ReferencePriceSnapshot {
@@ -2387,14 +2387,14 @@ export interface ExportQuotationMiddle {
   axiosConfig?: AxiosRequestConfig,
   quotation_ids?: string[]
   quotations?: Quotation[]
-  quotation_relation_map?: ExportQuotationMiddle_QuotationRelationMap
-  supplier_map?: enterprise.Supplier
+  quotation_relation_map?: Record<string, ExportQuotationMiddle_QuotationRelationMap>
+  supplier_map?: Record<string, enterprise.Supplier>
 }
 
 export interface ExportQuotationMiddle_QuotationRelationMap {
   axiosConfig?: AxiosRequestConfig,
   basic_price?: SyncQuotationBasicPriceRequest_BasicPrice[]
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
 }
 
 export interface FilterParams {
@@ -2868,7 +2868,7 @@ export interface GetSkuSalePricesCacheRequest_CustomerSkuSalePriceFilter_SkuFilt
 export interface GetSkuSalePricesCacheResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key=receive_customer_id + "_" + sku_id + "_" + fee_unit_id */ 
-  sku_sale_prices_map?: GetSkuSalePricesCacheResponse_SkuSalePriceCaches
+  sku_sale_prices_map?: Record<string, GetSkuSalePricesCacheResponse_SkuSalePriceCaches>
 }
 
 export interface GetSkuSalePricesCacheResponse_SkuSalePriceCaches {
@@ -2893,7 +2893,7 @@ export interface GetSkuPurchasePricesCacheRequest {
 export interface GetSkuPurchasePricesCacheResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key=supplier_id + "_" + sku_id + "_" + type */ 
-  sku_reference_prices_map?: SkuReferencePriceCaches
+  sku_reference_prices_map?: Record<string, SkuReferencePriceCaches>
 }
 
 export interface GetSkuInStockPricesCacheRequest {
@@ -2904,7 +2904,7 @@ export interface GetSkuInStockPricesCacheRequest {
 export interface GetSkuInStockPricesCacheResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key=supplier_id + "_" + sku_id + "_" + type */ 
-  sku_reference_prices_map?: SkuReferencePriceCaches
+  sku_reference_prices_map?: Record<string, SkuReferencePriceCaches>
 }
 
 export interface GetSkuReferencePricesCacheRequest {
@@ -2915,7 +2915,7 @@ export interface GetSkuReferencePricesCacheRequest {
 export interface GetSkuReferencePricesCacheResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key=supplier_id + "_" + sku_id + "_" + type */ 
-  sku_reference_prices_map?: SkuReferencePriceCaches
+  sku_reference_prices_map?: Record<string, SkuReferencePriceCaches>
 }
 
 export interface GetSkuBasicPricesCacheRequest {
@@ -2940,7 +2940,7 @@ export interface GetSkuBasicPricesCacheRequest_SkuBasicPriceFilter {
 export interface GetSkuBasicPricesCacheResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key=quotation_id + "_" + sku_id */ 
-  sku_basic_prices_map?: GetSkuBasicPricesCacheResponse_SkuBasicPriceCaches
+  sku_basic_prices_map?: Record<string, GetSkuBasicPricesCacheResponse_SkuBasicPriceCaches>
 }
 
 export interface GetSkuBasicPricesCacheResponse_SkuBasicPriceCaches {
@@ -2990,7 +2990,7 @@ export interface SkuEventListenerRequest {
   axiosConfig?: AxiosRequestConfig,
   event_type?: string
   sku_ids?: string[]
-  old_sku_map?: Sku
+  old_sku_map?: Record<string, Sku>
 }
 
 export interface SkuEventListenerResponse {
@@ -3026,8 +3026,8 @@ export interface GetSkuCacheRequest {
 
 export interface GetSkuCacheResponse {
   axiosConfig?: AxiosRequestConfig,
-  sku_cache_map?: SkuCache
-  sku_customer_alias_cache_map?: SkuCustomerAliasCache
+  sku_cache_map?: Record<string, SkuCache>
+  sku_customer_alias_cache_map?: Record<string, SkuCustomerAliasCache>
 }
 
 export interface InitSkuCustomerAliasCacheRequest {
@@ -3065,7 +3065,7 @@ export interface GetSkuCountRequest {
 export interface GetSkuCountResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key = sku_id */ 
-  sku_count_map?: SetSkuCountRequest_SkuCount
+  sku_count_map?: Record<string, SetSkuCountRequest_SkuCount>
 }
 
 export interface ListPackUnitRequest {
@@ -3106,11 +3106,11 @@ export interface ImportCombineSkuData {
   axiosConfig?: AxiosRequestConfig,
   combine_skus?: ImportCombineSkuData_CombineSku[]
    /** key = name */ 
-  sku_name_map?: merchandise.Sku
+  sku_name_map?: Record<string, merchandise.Sku>
    /** key = customize_code */ 
-  sku_code_map?: merchandise.Sku
+  sku_code_map?: Record<string, merchandise.Sku>
    /** key = unitId */ 
-  unit_map?: merchandise.Unit
+  unit_map?: Record<string, merchandise.Unit>
    /** key = quotation_id */ 
   quotation_name_map?: string
    /** 错误信息 */ 
@@ -3251,7 +3251,7 @@ export interface GetManySkuRemarkRequest {
 
 export interface GetManySkuRemarkResponse {
   axiosConfig?: AxiosRequestConfig,
-  sku_remark_cache_map?: SkuRemarkCache
+  sku_remark_cache_map?: Record<string, SkuRemarkCache>
 }
 
 export interface SaveSkuRemarkRequest {
@@ -3547,7 +3547,7 @@ export interface GetManyCategoryRequest {
 
 export interface GetManyCategoryResponse {
   axiosConfig?: AxiosRequestConfig,
-  category_map?: Category
+  category_map?: Record<string, Category>
 }
 
 export interface GetManyCategoryByRelationGroupRequest {
@@ -3559,7 +3559,7 @@ export interface GetManyCategoryByRelationGroupRequest {
 export interface GetManyCategoryByRelationGroupResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key: group_id-category_id */ 
-  category_map?: Category
+  category_map?: Record<string, Category>
 }
 
 export interface GetSpuRequest {
@@ -3597,7 +3597,7 @@ export interface GetManySpuRequest {
 
 export interface GetManySpuResponse {
   axiosConfig?: AxiosRequestConfig,
-  spu_map?: Spu
+  spu_map?: Record<string, Spu>
 }
 
 export interface ListSpuRequest {
@@ -3670,9 +3670,9 @@ export interface GetSkuV2Response {
   axiosConfig?: AxiosRequestConfig,
   sku?: Sku
    /** key 是分类ID, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** 组合商品的子商品 */ 
-  ingredient_map?: Sku
+  ingredient_map?: Record<string, Sku>
    /** 商品销售库存 */ 
   sku_sale_inventorys?: SkuSaleInventory[]
    /** 商品库存 */ 
@@ -3764,17 +3764,17 @@ export interface ListSkuV2ForSearchResponse {
    /** key 是finance_category_id, value是finance_category_id名字 */ 
   finance_category_map?: string
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** 组合商品的子商品 */ 
-  ingredient_map?: Sku
+  ingredient_map?: Record<string, Sku>
   paging?: common.PagingResult
    /** key 是skuId, value是客户商品属性 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
    /** 商品销售库存，key 是sku_id-order_unit_id */ 
-  sku_sale_inventorys?: SkuSaleInventory
+  sku_sale_inventorys?: Record<string, SkuSaleInventory>
    /** 商品供应商别名 */ 
   supplier_sku_alias?: string
-  basic_price_map?: SyncQuotationBasicPriceRequest_BasicPrice
+  basic_price_map?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
   sku_cache_sorts?: SkuCacheSort[]
 }
 
@@ -3808,21 +3808,21 @@ export interface ListSkuV2Response {
    /** key 是finance_category_id, value是finance_category_id名字 */ 
   finance_category_map?: string
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** 组合商品的子商品 */ 
-  ingredient_map?: Sku
+  ingredient_map?: Record<string, Sku>
   paging?: common.PagingResult
    /** key 是skuId, value是客户商品属性 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
    /** 商品销售库存，key 是sku_id-order_unit_id */ 
-  sku_sale_inventorys?: SkuSaleInventory
+  sku_sale_inventorys?: Record<string, SkuSaleInventory>
    /** 商品供应商别名 */ 
   supplier_sku_alias?: string
-  basic_price_map?: SyncQuotationBasicPriceRequest_BasicPrice
+  basic_price_map?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** 科目代码列表 */ 
-  account_code_map?: finance.AccountingSubject
+  account_code_map?: Record<string, finance.AccountingSubject>
    /** 商品供应商名称map */ 
-  sku_supplier_map?: enterprise.Supplier
+  sku_supplier_map?: Record<string, enterprise.Supplier>
 }
 
 export interface ListSkuWithInquiryPriceRequest {
@@ -3854,7 +3854,7 @@ export interface GetSkuByNameUnitResponse {
   axiosConfig?: AxiosRequestConfig,
   exact_sku_id?: string
   possible_sku_ids?: string[]
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
 }
 
 export interface ListSkuByNameUnitRequest {
@@ -3869,7 +3869,7 @@ export interface ListSkuByNameUnitResponse {
   axiosConfig?: AxiosRequestConfig,
   skus?: Sku[]
    /** key为{sku_id}-{sku_name}-{unit_name} */ 
-  suggested_price_map?: SkuSuggestedPrice
+  suggested_price_map?: Record<string, SkuSuggestedPrice>
    /** 精确匹配的sku_id */ 
   exact_sku_id?: string
    /** 模糊匹配的sku_ids */ 
@@ -3899,7 +3899,7 @@ export interface ListSkuSuggestedPriceByNameRequest_SkuInfo {
 export interface ListSkuSuggestedPriceByNameResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key为{sku_id}-{sku_name}-{unit_name} */ 
-  suggested_price_map?: SkuSuggestedPrice
+  suggested_price_map?: Record<string, SkuSuggestedPrice>
 }
 
 export interface ListRecentSkuPricesRequest {
@@ -3921,7 +3921,7 @@ export interface GetSkuCustomUnitRequest {
 export interface GetSkuCustomUnitResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key 是unit_id */ 
-  custom_unit_map?: Unit
+  custom_unit_map?: Record<string, Unit>
 }
 
 export interface GetSkuBondOrderUnitRequest {
@@ -3950,8 +3950,8 @@ export interface ListSkuLiteResponse {
    /** key 是finance_category_id, value是finance_category_id名字 */ 
   finance_category_map?: string
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
-  basic_price_map?: SyncQuotationBasicPriceRequest_BasicPrice
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
+  basic_price_map?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
   paging?: common.PagingResult
 }
 
@@ -4010,7 +4010,7 @@ export interface ListMaskSkuByQuotationResponse {
   skus?: Sku[]
   paging?: common.PagingResult
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
 }
 
 export interface GetManySkuV2Request {
@@ -4022,15 +4022,15 @@ export interface GetManySkuV2Request {
 
 export interface GetManySkuV2Response {
   axiosConfig?: AxiosRequestConfig,
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是finance_category_id, value是finance_category_id名字 */ 
   finance_category_map?: string
    /** key 是分类ID, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** 组合商品的子商品 */ 
-  ingredient_map?: Sku
+  ingredient_map?: Record<string, Sku>
    /** key 是"sku_id-order_unit_id",value是商品对应的销售库存 */ 
-  sku_sale_inventory?: SkuSaleInventory
+  sku_sale_inventory?: Record<string, SkuSaleInventory>
 }
 
 export interface ExportSkuRequest {
@@ -4116,7 +4116,7 @@ export interface GetManySkuRequest {
 export interface GetManySkuResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是sku_id */ 
-  sku_map?: GetManySkuResponse_SkuInfo
+  sku_map?: Record<string, GetManySkuResponse_SkuInfo>
 }
 
 export interface GetManySkuResponse_SkuInfo {
@@ -4125,7 +4125,7 @@ export interface GetManySkuResponse_SkuInfo {
   category_infos?: CategoryInfo[]
   sku?: Sku
    /** key是unit_id */ 
-  ssu_map?: ListSsuResponse_SsuInfo
+  ssu_map?: Record<string, ListSsuResponse_SsuInfo>
 }
 
 export interface GetSkuSnapRequest {
@@ -4147,7 +4147,7 @@ export interface GetManySkuSnapRequest {
 export interface GetManySkuSnapResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是 "{sku_id}-{sku_revision}"，例如 "1234111-1231111" */ 
-  sku_snap_map?: Sku
+  sku_snap_map?: Record<string, Sku>
 }
 
 export interface UpdateManySkuSnapV2Request {
@@ -4158,7 +4158,7 @@ export interface UpdateManySkuSnapV2Request {
 export interface UpdateManySkuSnapV2Response {
   axiosConfig?: AxiosRequestConfig,
    /** key是 "{sku_id}_{sku_revision}"，例如 "1234111_1231111" */ 
-  sku_snap_map?: Sku
+  sku_snap_map?: Record<string, Sku>
 }
 
 export interface QuerySkuSnapshotRequest {
@@ -4185,7 +4185,7 @@ export interface GetManySkuSnapV2Request {
 export interface GetManySkuSnapV2Response {
   axiosConfig?: AxiosRequestConfig,
    /** key是 "{sku_id}_{sku_revision}"，例如 "1234111_1231111" */ 
-  sku_snap_map?: Sku
+  sku_snap_map?: Record<string, Sku>
 }
 
 export interface CreateSkuV2Request {
@@ -4350,7 +4350,7 @@ export interface GetManySsuSnapRequest {
 export interface GetManySsuSnapResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是 "{sku_id}_{unit_id}_{ssu_revision}"，例如 "1234111-2-1231111" */ 
-  ssu_snap_map?: Ssu
+  ssu_snap_map?: Record<string, Ssu>
 }
 
 export interface GetSkuNameCacheV2Request {
@@ -4363,7 +4363,7 @@ export interface GetSkuNameCacheV2Response {
   axiosConfig?: AxiosRequestConfig,
   update_time?: string
   sku_names?: string
-  name_and_alias?: GetSkuNameCacheV2Response_NameAndAlias
+  name_and_alias?: Record<string, GetSkuNameCacheV2Response_NameAndAlias>
 }
 
 export interface GetSkuNameCacheV2Response_NameAndAlias {
@@ -4632,7 +4632,7 @@ export interface CreateRuleSetResponse {
   axiosConfig?: AxiosRequestConfig,
   rule_set?: RuleSet
    /** 规则冲突了。ssu在当前报价单下且当前运营时间下,已经有规则。key 是rule_set_id,value 是这个rule_set下冲突的ConflictData */ 
-  conflict_data_map?: RuleConflictData
+  conflict_data_map?: Record<string, RuleConflictData>
 }
 
 export interface UpdateRuleSetRequest {
@@ -4646,7 +4646,7 @@ export interface UpdateRuleSetResponse {
   axiosConfig?: AxiosRequestConfig,
   rule_set?: RuleSet
    /** 规则冲突了。ssu在当前报价单下且当前运营时间下,已经有规则。key 是rule_set_id,value 是这个rule_set下冲突的ConflictData */ 
-  conflict_data_map?: RuleConflictData
+  conflict_data_map?: Record<string, RuleConflictData>
 }
 
 export interface DeleteRuleSetRequest {
@@ -4682,7 +4682,7 @@ export interface ListRuleSetResponse {
   axiosConfig?: AxiosRequestConfig,
   rule_set?: RuleSet[]
    /** 报价单map */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
   paging?: common.PagingResult
 }
 
@@ -4947,7 +4947,7 @@ export interface CopyPeriodQuotationV2Param {
    /** 已经复制的basic条数 */ 
   copy_basic_price_num?: string
    /** 新的报价单id =》 需要复制的报价单信息 */ 
-  source_quotation?: CopySourceQuotationInfo
+  source_quotation?: Record<string, CopySourceQuotationInfo>
 }
 
 export interface CopyPeriodQuotationV2Request {
@@ -5095,8 +5095,8 @@ export interface ListQuotationResponse {
   quotations?: Quotation[]
    /** map<uint64, int32>                ssu_on_sale_num_map = 2; // key:quotation_id, value:在售商品数量 */ 
   paging?: common.PagingResult
-  supplier_relation?: enterprise.Supplier
-  group_users?: enterprise.GroupUser
+  supplier_relation?: Record<string, enterprise.Supplier>
+  group_users?: Record<string, enterprise.GroupUser>
 }
 
 export interface ListQuotationV2Request {
@@ -5113,8 +5113,8 @@ export interface ListQuotationV2Response {
   axiosConfig?: AxiosRequestConfig,
   quotations?: Quotation[]
   paging?: common.PagingResult
-  supplier_relation?: enterprise.Supplier
-  group_users?: enterprise.GroupUser
+  supplier_relation?: Record<string, enterprise.Supplier>
+  group_users?: Record<string, enterprise.GroupUser>
 }
 
 export interface GetValidQuotationByCustomerIdRequest {
@@ -5161,7 +5161,7 @@ export interface ListQuotationForBindingSkuResponse {
   quotations?: Quotation[]
   bound_quotation_ids?: string[]
   paging?: common.PagingResult
-  parent_quotations_map?: Quotation
+  parent_quotations_map?: Record<string, Quotation>
 }
 
 export interface ListQuotationForBatchUpdateBasicPriceRequest {
@@ -5175,7 +5175,7 @@ export interface ListQuotationForBatchUpdateBasicPriceResponse {
    /** 返回聚合的报价单列表 */ 
   quotations?: Quotation[]
    /** 返回父报价单信息 */ 
-  parent_quotations_map?: Quotation
+  parent_quotations_map?: Record<string, Quotation>
   paging?: common.PagingResult
 }
 
@@ -5198,7 +5198,7 @@ export interface ListQuotationForHistoryBasicPricesResponse {
    /** 商品历史报价使用过的下单单位 */ 
   order_unit_ids?: string[]
    /** key是order_unit_ids 中对应的order_unit_id */ 
-  quotations_map?: ListQuotationForHistoryBasicPricesResponse_IvalidQuotations
+  quotations_map?: Record<string, ListQuotationForHistoryBasicPricesResponse_IvalidQuotations>
 }
 
 export interface ListQuotationForHistoryBasicPricesResponse_IvalidQuotations {
@@ -5214,8 +5214,8 @@ export interface GetManyQuotationRequest {
 
 export interface GetManyQuotationResponse {
   axiosConfig?: AxiosRequestConfig,
-  quotation_map?: Quotation
-  suppliers?: enterprise.Supplier
+  quotation_map?: Record<string, Quotation>
+  suppliers?: Record<string, enterprise.Supplier>
 }
 
 export interface GetManyQuotationByNameRequest {
@@ -5292,8 +5292,8 @@ export interface GetCustomerIdsByQuotationIdsRequest {
 
 export interface GetCustomerIdsByQuotationIdsResponse {
   axiosConfig?: AxiosRequestConfig,
-  quotation_id_customer_ids_map?: GetCustomerIdsByQuotationIdsResponse_CustomerIds
-  customer_map?: enterprise.Customer
+  quotation_id_customer_ids_map?: Record<string, GetCustomerIdsByQuotationIdsResponse_CustomerIds>
+  customer_map?: Record<string, enterprise.Customer>
 }
 
 export interface GetCustomerIdsByQuotationIdsResponse_CustomerIds {
@@ -5321,9 +5321,9 @@ export interface GetQuotationIdsByCustomerIdsRequest {
 export interface GetQuotationIdsByCustomerIdsResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key  是 CustomerId；value 是 QuotationIds */ 
-  relation_map?: common.Uint64Set
+  relation_map?: Record<string, common.Uint64Set>
    /** key 是 QuotationId */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
 }
 
 export interface GetCustomerQuotationRelationRequest {
@@ -5434,7 +5434,7 @@ export interface GetManySkuSaleInventoryRequest {
 export interface GetManySkuSaleInventoryResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是sku_id-order_unit_id，value是销售库存 */ 
-  sku_sale_inventory_map?: SkuSaleInventory
+  sku_sale_inventory_map?: Record<string, SkuSaleInventory>
 }
 
 export interface MultiReplaceSkuSaleInventoryRequest {
@@ -5525,13 +5525,13 @@ export interface ListSpecialBasicPriceV2Response {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value是报价单名字 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id, value 是sku。有sku 和子商品 */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是报价单id, value 是绑定本报价单的customer_id列表 */ 
-  customer_id_map?: Uint64List
+  customer_id_map?: Record<string, Uint64List>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
   paging?: common.PagingResult
 }
 
@@ -5578,21 +5578,21 @@ export interface ListBasicPriceV2Response {
    /** 全部报价 */ 
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value是报价单名字 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id, value 是sku。有sku 和子商品 */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是报价单id, value 是绑定本报价单的customer_id列表 */ 
-  customer_id_map?: Uint64List
+  customer_id_map?: Record<string, Uint64List>
    /** key 是"sku_id-quotation_id", value是basic_price，子商品的报价 */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
   paging?: common.PagingResult
    /** key 是供应商id, value是供应商信息 */ 
-  supplier_map?: enterprise.Supplier
+  supplier_map?: Record<string, enterprise.Supplier>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
-  group_user_map?: enterprise.GroupUser
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
+  group_user_map?: Record<string, enterprise.GroupUser>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
    /** 协议单关联的报价单中的价格，用于页面上新增条目 */ 
   parent_basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
 }
@@ -5619,18 +5619,18 @@ export interface ListBasicPriceDetailResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value是报价单名字 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id, value 是sku。有sku 和子商品 */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是报价单id, value 是绑定本报价单的customer_id列表 */ 
-  customer_id_map?: Uint64List
+  customer_id_map?: Record<string, Uint64List>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
   paging?: common.PagingResult
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
    /** 协议单关联的报价单中的价格，用于页面上新增条目 */ 
   parent_basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
 }
@@ -5657,25 +5657,25 @@ export interface ListLiteBasicPriceResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value是报价单名字 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id, value 是sku。有sku 和子商品 */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是报价单id, value 是绑定本报价单的customer_id列表 */ 
-  customer_id_map?: Uint64List
+  customer_id_map?: Record<string, Uint64List>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
   paging?: common.PagingResult
    /** key 是供应商id, value是供应商信息 */ 
-  supplier_map?: enterprise.Supplier
+  supplier_map?: Record<string, enterprise.Supplier>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
-  group_user_map?: enterprise.GroupUser
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
+  group_user_map?: Record<string, enterprise.GroupUser>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
    /** 协议单关联的报价单中的价格，用于页面上新增条目 */ 
   parent_basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key是quotation_id-sku_id-unit_id-order_unit_id, value是参考价 */ 
-  reference_price_map?: GetSkuReferencePricesResponse_ReferencePrices
+  reference_price_map?: Record<string, GetSkuReferencePricesResponse_ReferencePrices>
 }
 
 export interface ListHistoryBasicPriceRequest {
@@ -5697,21 +5697,21 @@ export interface ListHistoryBasicPriceResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value是报价单名字 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id, value 是sku。有sku 和子商品 */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是报价单id, value 是绑定本报价单的customer_id列表 */ 
-  customer_id_map?: Uint64List
+  customer_id_map?: Record<string, Uint64List>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
   paging?: common.PagingResult
    /** key 是供应商id, value是供应商信息 */ 
-  supplier_map?: enterprise.Supplier
+  supplier_map?: Record<string, enterprise.Supplier>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
-  group_user_map?: enterprise.GroupUser
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
+  group_user_map?: Record<string, enterprise.GroupUser>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
 }
 
 export interface ListSkuHistoryBasicPriceRequest {
@@ -5740,7 +5740,7 @@ export interface ListSkuHistoryBasicPriceRequest_Filter {
 export interface ListSkuHistoryBasicPriceResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是quotation_id-sku_id-unit_id-order_unit_id, value是参考价 */ 
-  reference_price_map?: ListSkuHistoryBasicPriceResponse_ReferencePrices
+  reference_price_map?: Record<string, ListSkuHistoryBasicPriceResponse_ReferencePrices>
 }
 
 export interface ListSkuHistoryBasicPriceResponse_QuotationReferencePrice {
@@ -5778,17 +5778,17 @@ export interface ListHistoryBasicPriceByCustomerIDResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value 是报价单 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是sku_id,  value 是favorite_sku_list */ 
-  favorite_sku_map?: FavoriteSkuList
+  favorite_sku_map?: Record<string, FavoriteSkuList>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
   paging?: common.PagingResult
 }
 
@@ -5810,7 +5810,7 @@ export interface GetManyQuotationBasicPriceV2Request_SupplierSku {
 export interface GetManyQuotationBasicPriceV2Response {
   axiosConfig?: AxiosRequestConfig,
    /** key 是"supplier_id_sku_id_unit_id",三个字段的值用"_"拼接，value是basic_price */ 
-  basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice
+  basic_prices?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
 }
 
 export interface ListBasicPriceForBatchUpdateRequest {
@@ -5823,9 +5823,9 @@ export interface ListBasicPriceForBatchUpdateResponse {
   axiosConfig?: AxiosRequestConfig,
   multi_quotation_basic_price_items?: MultiQuotationBasicPriceItem[]
    /** key 是报价单id, value 是报价单 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
   paging?: common.PagingResult
 }
 
@@ -5875,20 +5875,20 @@ export interface ListBasicPriceByCustomerIDResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value 是报价单 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是sku_id,  value 是favorite_sku_list */ 
-  favorite_sku_map?: FavoriteSkuList
+  favorite_sku_map?: Record<string, FavoriteSkuList>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
   paging?: common.PagingResult
    /** key 是"sku_id-order_unit_id",value是商品对应的销售库存 */ 
-  sku_sale_inventory?: SkuSaleInventory
+  sku_sale_inventory?: Record<string, SkuSaleInventory>
    /** 已经被屏蔽的sku */ 
   exclude_sku_ids?: string[]
    /** customer_id-sku_name-unit_name: string */ 
@@ -5914,20 +5914,20 @@ export interface ListLiteBasicPriceByCustomerIDResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value 是报价单 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是sku_id,  value 是favorite_sku_list */ 
-  favorite_sku_map?: FavoriteSkuList
+  favorite_sku_map?: Record<string, FavoriteSkuList>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
   paging?: common.PagingResult
    /** key 是"sku_id-order_unit_id",value是商品对应的销售库存 */ 
-  sku_sale_inventory?: SkuSaleInventory
+  sku_sale_inventory?: Record<string, SkuSaleInventory>
    /** 已经被屏蔽的sku */ 
   exclude_sku_ids?: string[]
    /** customer_id-sku_name-unit_name: string */ 
@@ -5957,20 +5957,20 @@ export interface ListBasicPriceDetailByCustomerIDResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value 是报价单 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是sku_id,  value 是favorite_sku_list */ 
-  favorite_sku_map?: FavoriteSkuList
+  favorite_sku_map?: Record<string, FavoriteSkuList>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
   paging?: common.PagingResult
    /** key 是"sku_id-order_unit_id",value是商品对应的销售库存 */ 
-  sku_sale_inventory?: SkuSaleInventory
+  sku_sale_inventory?: Record<string, SkuSaleInventory>
    /** 已经被屏蔽的sku */ 
   exclude_sku_ids?: string[]
 }
@@ -5992,20 +5992,20 @@ export interface ListBasicPriceDetailByCustomerIDForSearchResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value 是报价单 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是sku_id,  value 是favorite_sku_list */ 
-  favorite_sku_map?: FavoriteSkuList
+  favorite_sku_map?: Record<string, FavoriteSkuList>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
   paging?: common.PagingResult
    /** key 是"sku_id-order_unit_id",value是商品对应的销售库存 */ 
-  sku_sale_inventory?: SkuSaleInventory
+  sku_sale_inventory?: Record<string, SkuSaleInventory>
    /** 已经被屏蔽的sku */ 
   exclude_sku_ids?: string[]
    /** 商品排序，距离最短（index升序）、下单频次（order_count倒序）、搜索频次（search_count倒序）、商品自身排序（sort_num倒序） */ 
@@ -6024,20 +6024,20 @@ export interface ListSkuAndBasicPriceDetailForSearchResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value 是报价单 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是sku_id,  value 是favorite_sku_list */ 
-  favorite_sku_map?: FavoriteSkuList
+  favorite_sku_map?: Record<string, FavoriteSkuList>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** key 是报价单id, value是分类 */ 
-  category_map?: CategoryTreeCache_CategoryInfo
+  category_map?: Record<string, CategoryTreeCache_CategoryInfo>
    /** key 是sku_id, value 是客户商品属性别名 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
   paging?: common.PagingResult
    /** key 是"sku_id-order_unit_id",value是商品对应的销售库存 */ 
-  sku_sale_inventory?: SkuSaleInventory
+  sku_sale_inventory?: Record<string, SkuSaleInventory>
    /** 已经被屏蔽的sku */ 
   exclude_sku_ids?: string[]
    /** 商品排序，下单频次（order_count倒序）、距离最短（index升序）、搜索频次（search_count倒序）、商品自身排序（sort_num倒序） */ 
@@ -6146,7 +6146,7 @@ export interface GetManyMenuPeriodGroupRequest {
 
 export interface GetManyMenuPeriodGroupResponse {
   axiosConfig?: AxiosRequestConfig,
-  menu_period_group?: MenuPeriodGroup
+  menu_period_group?: Record<string, MenuPeriodGroup>
 }
 
 export interface GetManyMenuPeriodGroupByNameRequest {
@@ -6157,7 +6157,7 @@ export interface GetManyMenuPeriodGroupByNameRequest {
 export interface GetManyMenuPeriodGroupByNameResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是餐次名称 */ 
-  menu_period_group?: MenuPeriodGroup
+  menu_period_group?: Record<string, MenuPeriodGroup>
 }
 
 export interface CreateMenuPeriodGroupRequest {
@@ -6211,13 +6211,13 @@ export interface ListMenuDetailResponse {
   menu_details?: MenuDetail[]
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是 sku_id */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是子商品 sku_id */ 
-  ingredient_map?: Sku
+  ingredient_map?: Record<string, Sku>
    /** key 是 unit_id */ 
-  unit_map?: Unit
+  unit_map?: Record<string, Unit>
    /** 对应需要的参考成本 */ 
-  reference_price_map?: UnitValue
+  reference_price_map?: Record<string, UnitValue>
 }
 
 export interface ListMenuDetailV2Request {
@@ -6243,11 +6243,11 @@ export interface ListMenuDetailV2Response {
    /** 价格 */ 
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是 */ 
-  category_map?: Category
+  category_map?: Record<string, Category>
    /** key 是 sku_id，组合商品+原料 */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是 sku_id */ 
-  reference_price_map?: UnitValue
+  reference_price_map?: Record<string, UnitValue>
 }
 
 export interface CreateMenuDetailRequest {
@@ -6391,16 +6391,16 @@ export interface ListFavoriteSkuV2Request {
 export interface ListFavoriteSkuV2Response {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是sku_id,  value 是favorite_sku_list */ 
-  favorite_sku_map?: FavoriteSkuList
+  favorite_sku_map?: Record<string, FavoriteSkuList>
   paging?: common.PagingResult
    /** key 是sku_id,  value 是客户商品属性 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
    /** key 是"sku_id-order_unit_id",value是商品对应的销售库存 */ 
-  sku_sale_inventory?: SkuSaleInventory
+  sku_sale_inventory?: Record<string, SkuSaleInventory>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
 }
 
 export interface GetManyBasicPriceRequest {
@@ -6412,7 +6412,7 @@ export interface GetManyBasicPriceRequest {
 export interface GetManyBasicPriceResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是request里面的字段按顺序拼起来的字符串 */ 
-  basic_price_map?: SyncQuotationBasicPriceRequest_BasicPrice
+  basic_price_map?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
 }
 
 export interface GetManyFinanceCategoryRequest {
@@ -6422,7 +6422,7 @@ export interface GetManyFinanceCategoryRequest {
 
 export interface GetManyFinanceCategoryResponse {
   axiosConfig?: AxiosRequestConfig,
-  finance_categorys?: FinanceCategory
+  finance_categorys?: Record<string, FinanceCategory>
 }
 
 export interface CreateBasicPriceRequest {
@@ -6515,7 +6515,7 @@ export interface ExportQuotationBySsuResponse {
 export interface CreateQuotationBasicPriceRequest {
   axiosConfig?: AxiosRequestConfig,
    /** key格式为  供应商id:开始时间:结束时间 */ 
-  sheets?: CreateQuotationBasicPriceRequest_ProtocolSheet
+  sheets?: Record<string, CreateQuotationBasicPriceRequest_ProtocolSheet>
 }
 
 export interface CreateQuotationBasicPriceRequest_ProtocolSheet {
@@ -6528,19 +6528,19 @@ export interface CreateQuotationBasicPriceRequest_ProtocolSheet {
 export interface CreateQuotationBasicPriceResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key格式为  供应商id:开始时间:结束时间 */ 
-  sheets?: CreateQuotationBasicPriceRequest_ProtocolSheet
+  sheets?: Record<string, CreateQuotationBasicPriceRequest_ProtocolSheet>
 }
 
 export interface CreateQuotationBasicPriceV2Request {
   axiosConfig?: AxiosRequestConfig,
    /** key格式为  供应商id:开始时间:结束时间 */ 
-  sheets?: CreateQuotationBasicPriceRequest_ProtocolSheet
+  sheets?: Record<string, CreateQuotationBasicPriceRequest_ProtocolSheet>
 }
 
 export interface CreateQuotationBasicPriceV2Response {
   axiosConfig?: AxiosRequestConfig,
    /** key格式为  供应商id:开始时间:结束时间 */ 
-  sheets?: CreateQuotationBasicPriceRequest_ProtocolSheet
+  sheets?: Record<string, CreateQuotationBasicPriceRequest_ProtocolSheet>
    /** 是否存在冲突 */ 
   has_conflict?: boolean
    /** 冲突的协议单单号 */ 
@@ -6635,12 +6635,12 @@ export interface ListBasicPriceResponse {
    /** 拉取报价商品不会重复 */ 
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
   skus?: Sku[]
-  quotation_relation?: Quotation
-  supplier_relation?: enterprise.Supplier
-  category_map?: Category
-  group_user_relation?: enterprise.GroupUser
+  quotation_relation?: Record<string, Quotation>
+  supplier_relation?: Record<string, enterprise.Supplier>
+  category_map?: Record<string, Category>
+  group_user_relation?: Record<string, enterprise.GroupUser>
    /** sku id的历史报价 拉取列表则使用sku unit 拉取单个商品则为报价单ID */ 
-  basic_prices_snapshot?: ListBasicPriceResponse_Price
+  basic_prices_snapshot?: Record<string, ListBasicPriceResponse_Price>
    /** 今日报价次数 key 为quotation_id 值为次数 */ 
   count_today_offer?: string
   paging?: common.PagingResult
@@ -6662,9 +6662,9 @@ export interface GetBasicPriceResponse {
   basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key skuid:unitid */ 
-  ssu_info_relation?: ListSsuResponse_SsuInfo
+  ssu_info_relation?: Record<string, ListSsuResponse_SsuInfo>
    /** sku:unit */ 
-  supplier_relation?: enterprise.Supplier
+  supplier_relation?: Record<string, enterprise.Supplier>
 }
 
 export interface GetImportQuotationBasicPriceTemplateRequest {
@@ -6697,7 +6697,7 @@ export interface GetBasicPriceSnapshotRequest {
 export interface GetBasicPriceSnapshotResponse {
   axiosConfig?: AxiosRequestConfig,
    /** ssuid的历史报价 */ 
-  basic_prices_snapshot?: GetBasicPriceSnapshotResponse_Price
+  basic_prices_snapshot?: Record<string, GetBasicPriceSnapshotResponse_Price>
    /** ssu */ 
   ssus?: Ssu[]
   paging?: common.PagingResult
@@ -6944,7 +6944,7 @@ export interface GetManyReferencePriceRequest {
 export interface GetManyReferencePriceResponse {
   axiosConfig?: AxiosRequestConfig,
    /** 对应需要的参考成本 */ 
-  reference_price_map?: UnitValue
+  reference_price_map?: Record<string, UnitValue>
 }
 
 export interface GetSkuReferencePricesFromPeriodicQuotationRequest {
@@ -7019,9 +7019,9 @@ export interface GetSkuReferencePricesRequest_Filter {
 export interface GetSkuReferencePricesResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是quotation_id-sku_id-unit_id-order_unit_id, value是参考价 */ 
-  reference_price_map?: GetSkuReferencePricesResponse_ReferencePrices
+  reference_price_map?: Record<string, GetSkuReferencePricesResponse_ReferencePrices>
    /** key 是sku_id, proto 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
 }
 
 export interface GetSkuReferencePricesResponse_QuotationReferencePrice {
@@ -7092,7 +7092,7 @@ export interface GetSkuReferPurAndInPricesRequest_Filter {
 export interface GetSkuReferPurAndInPricesResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key是sku_id-unit_id-order_unit_id, value是参考价 */ 
-  reference_price_map?: GetSkuReferPurAndInPricesResponse_ReferencePrices
+  reference_price_map?: Record<string, GetSkuReferPurAndInPricesResponse_ReferencePrices>
 }
 
 export interface GetSkuReferPurAndInPricesResponse_ReferencePrice {
@@ -7140,7 +7140,7 @@ export interface GetSkuReferencePricesByTypeRequest_SupplierSkus {
 export interface GetSkuReferencePricesByTypeResponse {
   axiosConfig?: AxiosRequestConfig,
    /** key为'{supplier_id}_{sku_id}' 形式字符串 */ 
-  reference_prices?: GetSkuReferencePricesByTypeResponse_RefPriceValue
+  reference_prices?: Record<string, GetSkuReferencePricesByTypeResponse_RefPriceValue>
 }
 
 export interface GetSkuReferencePricesByTypeResponse_RefPriceValue {
@@ -7299,13 +7299,13 @@ export interface ListBestSaleSkuResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是报价单id, value是报价单名字 */ 
-  quotation_map?: Quotation
+  quotation_map?: Record<string, Quotation>
    /** key 是sku_id, proto 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
    /** key 是"sku_id-quotation_id", value是basic_price */ 
-  ingredient_basic_price?: SyncQuotationBasicPriceRequest_BasicPrice
+  ingredient_basic_price?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
    /** key 是"sku_id", value是特殊分类信息 */ 
-  config_info_map?: enterprise.ConfigInfo
+  config_info_map?: Record<string, enterprise.ConfigInfo>
    /** customer_id-sku_name-unit_name: string */ 
   customer_price_info?: string
    /** 自动获取最近价格 */ 
@@ -7351,7 +7351,7 @@ export interface GetBulkImportBasicPriceV2LiteErrResponse {
   axiosConfig?: AxiosRequestConfig,
   quotation?: Quotation
   err_row_data?: BulkImportBasicPriceV2LiteMiddle_RowData[]
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
 }
 
 export interface BulkImportCustomerBasicPriceV2Request {
@@ -7485,7 +7485,7 @@ export interface GetManyEshopMenuPeriodGroupRequest {
 
 export interface GetManyEshopMenuPeriodGroupResponse {
   axiosConfig?: AxiosRequestConfig,
-  menu_period_groups?: MenuPeriodGroup
+  menu_period_groups?: Record<string, MenuPeriodGroup>
 }
 
 export interface ListEshopMenuPeriodGroupRequest {
@@ -7559,7 +7559,7 @@ export interface GetManyMenuRequest {
 
 export interface GetManyMenuResponse {
   axiosConfig?: AxiosRequestConfig,
-  menu_map?: Menu
+  menu_map?: Record<string, Menu>
 }
 
 export interface ListSimpleMenuRequest {
@@ -7794,7 +7794,7 @@ export interface ListMenuDetailSkuResponse {
   axiosConfig?: AxiosRequestConfig,
   menu_detail_skus?: MenuDetailSku[]
    /** key为sku_id */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
   paging?: common.PagingResult
 }
 
@@ -8135,10 +8135,10 @@ export interface SameSkuUnitRateResponse {
 export interface MatchSkuResponse {
   axiosConfig?: AxiosRequestConfig,
   match_results?: MatchSkuResponse_MatchResult[]
-  basic_price_map?: SyncQuotationBasicPriceRequest_BasicPrice
-  quotation_map?: Quotation
+  basic_price_map?: Record<string, SyncQuotationBasicPriceRequest_BasicPrice>
+  quotation_map?: Record<string, Quotation>
    /** key=skuId */ 
-  product_config_map?: enterprise.ConfigInfo
+  product_config_map?: Record<string, enterprise.ConfigInfo>
 }
 
 export interface MatchSkuResponse_Item {
@@ -8207,7 +8207,7 @@ export interface ListSkuWithQuotationByCustomerIdResponse {
   axiosConfig?: AxiosRequestConfig,
   basic_prices?: SyncQuotationBasicPriceRequest_BasicPrice[]
    /** key 是sku_id,  value 是sku */ 
-  sku_map?: Sku
+  sku_map?: Record<string, Sku>
   paging?: common.PagingResult
 }
 
@@ -9787,7 +9787,7 @@ export interface AsyncManagebaseSkuEventListenerRequest {
   axiosConfig?: AxiosRequestConfig,
   event_type?: string
   sku_ids?: string[]
-  old_sku_map?: Sku
+  old_sku_map?: Record<string, Sku>
 }
 
 export interface AsyncManagebaseSkuEventListenerResponse {
@@ -9798,7 +9798,7 @@ export interface AsyncManagebaseSkuCategoryEventListenerRequest {
   axiosConfig?: AxiosRequestConfig,
   event_type?: string
   sku_category_ids?: string[]
-  old_sku_map?: Sku
+  old_sku_map?: Record<string, Sku>
 }
 
 export interface AsyncManagebaseSkuCategoryEventListenerResponse {

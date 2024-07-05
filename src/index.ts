@@ -15,6 +15,9 @@ const preconditioningProto = async (filePath: string) => {
   await fs.writeFile(filePath, newContent)
 }
 
+/**
+ * TODO: 遍历即系proto文件，将文件内容格式化
+ */
 const main = async () => {
   // const filePath = path.join(__dirname, '../protos/account.proto');
   const filePath = path.join(__dirname, '../protos/merchandise.proto');
@@ -30,7 +33,7 @@ const main = async () => {
 
 const transferToTemplate = (params: AllDataType, options: {
   rootName: string
-  map: any
+  map: Record<string, string>
 }) => {
   const { methods, types, enums } = params
   const { map, rootName } = options

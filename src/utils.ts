@@ -76,7 +76,7 @@ export const transfer = (rootJson: protobuf.AnyNestedObject) => {
         const fieldsValue: protobuf.IType = value
         const fieldKey = prefix ? `${prefix}${key}`.replace(/\./g, '_') : `${key}`
         map[key] = fieldKey
-        result.types = {...result.types, [fieldKey]: {...fieldsValue, prefix: `${prefix}`, sourceKey: key, path: [...prefix.split('.'), key], parentNode: root }}
+        result.types = {...result.types, [fieldKey]: {...fieldsValue, prefix: `${prefix}`, sourceKey: key, path: [...prefix.split('.'), key]}}
       }
 
       /** 表示生成ts enum */
@@ -138,7 +138,6 @@ type Transfer2TypesParams = {
     prefix: string;
     sourceKey: string
     path: string[]
-    parentNode: protobuf.AnyNestedObject
   };
   /** 字段名 */
   fieldName: string
@@ -181,7 +180,7 @@ const type2Map = {
 
 export const transfer2Types = (options: Transfer2TypesParams) => {
   const { service, fieldName, rootName, map, onBeforeTransfer, onAfterTransfer } = options
-  const { path, prefix, parentNode } = service
+  const { path, prefix } = service
 
   let res = onBeforeTransfer?.() || ''
 
@@ -201,6 +200,7 @@ export const transfer2Types = (options: Transfer2TypesParams) => {
     const isInnested = nestTypeKeys.includes(type)
 
     let finalType = type
+    const isRecordKeyType = 'keyType' in currentField
 
     /** 如果定义在子类型下，需要加上父级key */
     if (isBase) {
@@ -211,6 +211,10 @@ export const transfer2Types = (options: Transfer2TypesParams) => {
       /** 如果当前类型是 Account.Type 这样拼接，且是首字母是小写 */
       /** 路径反序匹配 */
       finalType = map[type] || map[findTypeFromPath(path, type)] ||  formatString(type)
+    }
+
+    if (isRecordKeyType && !isBase) {
+      finalType = `Record<string, ${finalType}>`
     }
 
     const fieldItem = {
